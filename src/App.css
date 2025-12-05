@@ -1,0 +1,21 @@
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: black;
+  background-image: url('https://img.freepik.com/free-vector/christmas-snowy-background_1048-9078.jpg?semt=ais_se_enriched&w=740&q=80');
+  background-size: cover;
+  background-repeat: repeat;
+  color: white;
+  overflow: hidden;
+  animation: moveStars 800s linear infinite;
+}
+
+@keyframes moveStars {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -10000px 5000px; /* slowly moves diagonally */
+  }
+}
