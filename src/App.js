@@ -4,7 +4,8 @@ import myPhoto from './assets/me.jpg';
 const projects = [
   {
     name: 'RewriteKit',
-    status: 'Active build',
+    status: 'Live',
+    url: 'https://rewritekit.vercel.app/',
     summary:
       'Structured AI rewrite workflows for turning rough text into LinkedIn posts, prompts, emails, summaries, tables, and presentation bullets.',
     detail:
@@ -12,22 +13,14 @@ const projects = [
     stack: ['Next.js', 'React', 'TypeScript', 'OpenAI', 'Stripe'],
   },
   {
-    name: 'AlmaData Remodel',
-    status: 'Rebuilt concept',
-    summary:
-      'A website remodeling tool that extracts useful assets from an old website, recommends the best rewiring strategy, and generates a cleaner homepage in one flow.',
-    detail:
-      'Runs on FastAPI with deterministic extraction, optional cheap AI planning, and one-click HTML generation while keeping secrets server-side.',
-    stack: ['FastAPI', 'Python', 'Pydantic', 'OpenAI', 'HTML parsing'],
-  },
-  {
     name: 'MeroChoice',
-    status: 'Live direction',
+    status: 'Live',
+    url: 'https://merochoice.com/',
     summary:
-      'Bilingual decision-support mini-apps for Nepal covering study abroad, NEPSE readiness, and travel fit with structured decision briefs.',
+      'Bilingual decision-support for Nepal: election, banking, career, education, stocks, and more—structured briefs instead of gimmick quizzes.',
     detail:
-      'The product moved away from quiz-style gimmicks and toward recommendation, confidence, watchouts, and next-step guidance, with optional low-cost AI insight.',
-    stack: ['Node.js', 'Vanilla JS', 'OpenAI', 'Product design'],
+      'Built for Nepali and English audiences with clear recommendations, confidence, watchouts, and next steps, plus optional low-cost AI insight where it helps.',
+    stack: ['Next.js', 'React', 'OpenAI', 'Product design'],
   },
   {
     name: 'SwiftShift',
@@ -97,7 +90,11 @@ function App() {
               <a className="button secondary" href="https://github.com/bhanni01">
                 GitHub
               </a>
-              <a className="button secondary" href="/nischalbhandari.pdf">
+              <a
+                className="button secondary"
+                href={`${process.env.PUBLIC_URL || ''}/nischalbhandari.pdf`}
+                download
+              >
                 Resume
               </a>
             </div>
@@ -138,7 +135,7 @@ function App() {
             <p className="eyebrow">Workspace snapshot</p>
             <div className="metrics">
               <div>
-                <strong>5</strong>
+                <strong>4</strong>
                 <span>serious product threads represented here</span>
               </div>
               <div>
@@ -182,6 +179,16 @@ function App() {
                     </span>
                   ))}
                 </div>
+                {project.url ? (
+                  <a
+                    className="project-live-link"
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Visit live site
+                  </a>
+                ) : null}
               </article>
             ))}
           </div>
@@ -215,7 +222,11 @@ function App() {
             <a className="button primary" href="https://github.com/bhanni01">
               GitHub profile
             </a>
-            <a className="button secondary" href="/nischalbhandari.pdf">
+            <a
+              className="button secondary"
+              href={`${process.env.PUBLIC_URL || ''}/nischalbhandari.pdf`}
+              download
+            >
               Download resume
             </a>
           </div>
