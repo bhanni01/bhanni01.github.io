@@ -5,7 +5,7 @@ test('renders portfolio heading', () => {
   render(<App />);
   expect(
     screen.getByRole('heading', {
-      name: /i build internet products that start messy and become usable/i,
+      name: /mayo clinic intern, luther college cs student/i,
     })
   ).toBeInTheDocument();
 });

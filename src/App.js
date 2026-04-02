@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import myPhoto from './assets/me.jpg';
 
@@ -60,7 +60,7 @@ const principles = [
 ];
 
 const focusAreas = [
-  'Frontend engineering',
+  'Full-stack engineering',
   'AI product workflows',
   'Design systems and motion',
   'Creative web interfaces',
@@ -68,9 +68,67 @@ const focusAreas = [
 
 function App() {
   const [pixelMode, setPixelMode] = useState(false);
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const [flyAlive, setFlyAlive] = useState(true);
+  const [flyPos, setFlyPos] = useState({ x: 180, y: 160, rotation: 0 });
+  const [flyDialogOpen, setFlyDialogOpen] = useState(false);
+  const [flyDreamOpen, setFlyDreamOpen] = useState(false);
+  const [flyDialogPos, setFlyDialogPos] = useState({ x: 180, y: 160 });
+
+  useEffect(() => {
+    if (pixelMode) {
+      setFlyDialogOpen(false);
+      return undefined;
+    }
+
+    if (!flyAlive) {
+      return undefined;
+    }
+
+    const moveFly = () => {
+      const nextX = 72 + Math.floor(Math.random() * Math.max(window.innerWidth - 220, 120));
+      const nextY = 120 + Math.floor(Math.random() * Math.max(window.innerHeight - 300, 120));
+      const nextRotation = -24 + Math.floor(Math.random() * 48);
+      setFlyPos({ x: nextX, y: nextY, rotation: nextRotation });
+    };
+
+    moveFly();
+    const intervalId = window.setInterval(moveFly, 1200);
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [pixelMode, flyAlive]);
+
+  useEffect(() => {
+    if (!flyDialogOpen) {
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setFlyDialogOpen(false);
+      setFlyDreamOpen(false);
+    }, flyDreamOpen ? 9000 : 12000);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [flyDialogOpen, flyDreamOpen]);
+
+  const handleFlyHit = () => {
+    setFlyAlive(false);
+    setFlyDialogPos({ x: flyPos.x, y: flyPos.y });
+    setFlyDialogOpen(true);
+    setFlyDreamOpen(false);
+  };
 
   return (
-    <div className={`site-shell${pixelMode ? ' pixel-mode' : ''}`}>
+    <div
+      className={`site-shell${pixelMode ? ' pixel-mode' : ''}${!pixelMode && flyAlive ? ' fly-hunt-active' : ''}`}
+      onMouseMove={(event) =>
+        setCursorPos({
+          x: event.clientX,
+          y: event.clientY,
+        })
+      }
+    >
       {pixelMode ? (
         <div className="pixel-world" aria-hidden="true">
           <div className="pixel-world__sky" />
@@ -88,8 +146,8 @@ function App() {
           <div className="pixel-world__ground" />
           <div className="pixel-world__hud">
             <span>Biome: Decorah Plains</span>
-            <span>Quest: Internship Hunt</span>
-            <span>Build: Frontend + AI</span>
+            <span>Quest: Job Hunt</span>
+            <span>Build: Full-stack + AI</span>
           </div>
           <div className="pixel-world__hotbar">
             <span />
@@ -105,6 +163,95 @@ function App() {
         </div>
       ) : null}
       <div className="site-noise" aria-hidden="true" />
+      {!pixelMode && flyAlive ? (
+        <>
+          <button
+            type="button"
+            className="fly-sprite"
+            style={{
+              left: `${flyPos.x}px`,
+              top: `${flyPos.y}px`,
+              transform: `translate(-50%, -50%) rotate(${flyPos.rotation}deg)`,
+            }}
+            onClick={handleFlyHit}
+            aria-label="Catch the fly"
+          >
+            <span className="fly-sprite__wing fly-sprite__wing--left" aria-hidden="true" />
+            <span className="fly-sprite__wing fly-sprite__wing--right" aria-hidden="true" />
+            <span className="fly-sprite__body" aria-hidden="true" />
+          </button>
+          <div
+            className="fly-hint"
+            style={{
+              left: `${flyPos.x}px`,
+              top: `${flyPos.y - 54}px`,
+            }}
+          >
+            kill me for a surprise
+          </div>
+          <div
+            className="swatter-cursor"
+            style={{
+              left: `${cursorPos.x}px`,
+              top: `${cursorPos.y}px`,
+            }}
+            aria-hidden="true"
+          />
+        </>
+      ) : null}
+      {!pixelMode && flyDialogOpen ? (
+        <div
+          className="fly-dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Fly dream"
+          style={{
+            left: `${flyDialogPos.x}px`,
+            top: `${flyDialogPos.y}px`,
+          }}
+        >
+          <p className="fly-dialog__eyebrow">Oops</p>
+          <h3>You killed it. Wanna hear my last dream?</h3>
+          {flyDreamOpen ? (
+            <>
+              <p className="fly-dialog__dream">
+                I wanted Nischal to be working with you.
+              </p>
+              <div className="fly-dialog__actions">
+                <a className="button primary" href={`${process.env.PUBLIC_URL || ''}/resume.html`}>
+                  Resume
+                </a>
+                <button
+                  type="button"
+                  className="button secondary"
+                  onClick={() => {
+                    setFlyDialogOpen(false);
+                    setFlyDreamOpen(false);
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="fly-dialog__actions">
+              <button type="button" className="button primary" onClick={() => setFlyDreamOpen(true)}>
+                Yes
+              </button>
+              <button
+                type="button"
+                className="button secondary"
+                onClick={() => {
+                  setFlyDialogOpen(false);
+                  setFlyDreamOpen(false);
+                }}
+              >
+                No
+              </button>
+            </div>
+          )}
+        </div>
+      ) : null}
 
       <header className="topbar">
         <a className="wordmark" href="#top">
@@ -120,8 +267,22 @@ function App() {
       <main id="top">
         <section className="hero">
           <div className="hero-copy">
-            <p className="eyebrow">Student builder seeking internships</p>
-            <h1>Mayo Clinic intern, Luther College CS student, and frontend builder looking for the next serious team.</h1>
+            {!pixelMode ? (
+              <>
+                <div className="hero-aurora" aria-hidden="true">
+                  <span className="hero-aurora__band hero-aurora__band--one" />
+                  <span className="hero-aurora__band hero-aurora__band--two" />
+                </div>
+                <div className="hero-stars" aria-hidden="true">
+                  <span className="hero-star hero-star--one" />
+                  <span className="hero-star hero-star--two" />
+                  <span className="hero-star hero-star--three" />
+                  <span className="hero-star hero-star--four" />
+                </div>
+              </>
+            ) : null}
+            <p className="eyebrow">Student builder looking for full-time roles</p>
+            <h1>Mayo Clinic intern, Luther College CS student, and full-stack builder looking for the next serious team.</h1>
             <p className="hero-lead">
               I am currently a Software Engineer Intern at Mayo Clinic, where I help build secure
               full-stack tooling for collaborative image workflows and clinician-led AI annotation.
@@ -136,10 +297,10 @@ function App() {
               >
                 Luther College
               </a>{' '}
-              in Decorah, Iowa, and I am looking for internship opportunities where I
-              can work on frontend engineering, product design, and AI-assisted web
-              experiences. I like interfaces with personality, clean systems behind
-              them, and just enough Minecraft energy
+              in Decorah, Iowa, and I am looking for full-time opportunities where I
+              can work on full-stack engineering, product design, and AI-powered web
+              experiences. I am proficient in AI engineering, and I like interfaces with
+              personality, clean systems behind them, and just enough Minecraft energy
               <button
                 type="button"
                 className="pixel-toggle"
@@ -155,10 +316,19 @@ function App() {
 
             <div className="hero-signal" aria-label="Current status">
               <span>Mayo Clinic intern</span>
-              <span>Open to internships</span>
+              <span>Open to full-time roles</span>
               <span>Luther College</span>
               <span>AWS certified</span>
             </div>
+
+            {!pixelMode ? (
+              <div className="hero-marquee" aria-label="Selling points">
+                <span>Secure AI tooling</span>
+                <span>Product instinct</span>
+                <span>Full-stack delivery</span>
+                <span>Startup grit</span>
+              </div>
+            ) : null}
 
             <div className="hero-actions">
               <a className="button primary" href="#projects">
@@ -175,6 +345,13 @@ function App() {
               </a>
             </div>
 
+            {!pixelMode ? (
+              <p className="hero-proof">
+                Not looking for a decorative portfolio. Looking for a team that wants
+                someone who can design, implement, and keep making the product sharper.
+              </p>
+            ) : null}
+
             <ul className="focus-list">
               {focusAreas.map((item) => (
                 <li key={item}>{item}</li>
@@ -183,6 +360,15 @@ function App() {
           </div>
 
           <aside className="hero-panel">
+            {!pixelMode ? (
+              <div className="hero-orbit" aria-hidden="true">
+                <span className="hero-orbit__ring hero-orbit__ring--one" />
+                <span className="hero-orbit__ring hero-orbit__ring--two" />
+                <span className="hero-orbit__chip hero-orbit__chip--one">Mayo Clinic</span>
+                <span className="hero-orbit__chip hero-orbit__chip--two">Full-stack</span>
+                <span className="hero-orbit__chip hero-orbit__chip--three">AI + Product</span>
+              </div>
+            ) : null}
             <div className="pixel-scene" aria-hidden="true">
               <div className="pixel-scene__hud">
                 <span>LUTHER COLLEGE</span>
@@ -219,7 +405,7 @@ function App() {
             <img className="portrait" src={myPhoto} alt="Nischal Bhandari" />
             <div className="hero-panel-copy">
               <p className="eyebrow">Current pattern</p>
-              <h2>Frontend systems, product instinct, and real-world delivery.</h2>
+              <h2>Full-stack systems, product instinct, and real-world delivery.</h2>
               <p>
                 The most useful version of my work sits between implementation and taste:
                 secure tooling at Mayo Clinic, product and automation experience from prior
@@ -244,7 +430,7 @@ function App() {
             <div className="metrics">
               <div>
                 <strong>5</strong>
-                <span>projects that show how I think through product and frontend work</span>
+                <span>projects that show how I think through product and engineering work</span>
               </div>
               <div>
                 <strong>Mayo Clinic</strong>
@@ -320,9 +506,9 @@ function App() {
         <section className="contact-section panel" id="contact">
           <div>
             <p className="eyebrow">Contact</p>
-            <h2>If you are hiring interns, this is the part where we should talk.</h2>
+            <h2>If you are hiring for full-time roles, this is the part where we should talk.</h2>
             <p>
-              I am a Luther College student building toward frontend and product
+              I am a Luther College student building toward full-stack and product
               engineering roles. The work here is real, and I want to keep adding
               stronger systems, stronger interfaces, and stronger shipped products.
             </p>
