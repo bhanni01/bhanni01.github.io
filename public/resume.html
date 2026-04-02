@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nischal Bhandari — Résumé</title>
+    <meta
+      name="description"
+      content="Résumé for Nischal Bhandari — education, experience, projects, and technical skills."
+    />
+    <style>
+      :root {
+        --ink: #111111;
+        --muted: #333333;
+        --rule: #000000;
+        --paper: #ffffff;
+        --accent: #0c58f2;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        background: #e8e4dc;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        font-family: 'Times New Roman', Times, Georgia, serif;
+        font-size: 11pt;
+        line-height: 1.35;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .sheet {
+        max-width: 8.5in;
+        min-height: 11in;
+        margin: 24px auto;
+        padding: 0.55in 0.72in 0.65in;
+        background: var(--paper);
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+      }
+
+      .toolbar {
+        max-width: 8.5in;
+        margin: 0 auto 12px;
+        padding: 0 12px;
+        font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+        font-size: 13px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px 18px;
+      }
+
+      .toolbar a {
+        color: var(--accent);
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .toolbar a:hover {
+        text-decoration: underline;
+      }
+
+      .toolbar__spacer {
+        flex: 1;
+      }
+
+      h1 {
+        margin: 0 0 6px;
+        font-size: 22pt;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-align: center;
+        text-transform: none;
+      }
+
+      .contact {
+        text-align: center;
+        font-size: 10.5pt;
+        color: var(--muted);
+        margin: 0 0 14px;
+        line-height: 1.45;
+      }
+
+      .contact a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .contact a:hover {
+        text-decoration: underline;
+      }
+
+      .sep {
+        margin: 0 0.35em;
+        color: #666;
+      }
+
+      h2 {
+        margin: 14px 0 6px;
+        font-size: 11pt;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        border-bottom: 1px solid var(--rule);
+        padding-bottom: 2px;
+      }
+
+      h2:first-of-type {
+        margin-top: 4px;
+      }
+
+      .block {
+        margin: 10px 0 0;
+      }
+
+      .block__head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 6px 12px;
+        font-weight: 700;
+      }
+
+      .block__title {
+        font-size: 11pt;
+      }
+
+      .block__meta {
+        font-size: 10.5pt;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .org {
+        font-style: italic;
+        font-weight: 400;
+        font-size: 10.5pt;
+        margin: 2px 0 4px;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 1.15em;
+      }
+
+      li {
+        margin: 2px 0;
+      }
+
+      .project-line {
+        margin: 10px 0 0;
+        font-weight: 700;
+        font-size: 11pt;
+      }
+
+      .skills-grid {
+        margin: 8px 0 0;
+        font-size: 10.5pt;
+      }
+
+      .skills-grid p {
+        margin: 4px 0;
+      }
+
+      .skills-label {
+        font-weight: 700;
+      }
+
+      .footer-note {
+        margin-top: 18px;
+        font-size: 9.5pt;
+        color: #555;
+        text-align: center;
+        font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+      }
+
+      .footer-note a {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      @media print {
+        html {
+          background: #fff;
+        }
+
+        .toolbar,
+        .footer-note {
+          display: none !important;
+        }
+
+        .sheet {
+          margin: 0;
+          padding: 0.5in 0.65in;
+          box-shadow: none;
+          max-width: none;
+        }
+
+        body {
+          font-size: 11pt;
+        }
+
+        a {
+          color: #000 !important;
+          text-decoration: none !important;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .sheet {
+          margin: 0;
+          padding: 28px 20px 32px;
+          box-shadow: none;
+        }
+
+        .block__head {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="toolbar">
+      <a href="/">← Back to portfolio</a>
+      <span class="toolbar__spacer"></span>
+      <a href="/nischalbhandari.pdf" download>Download PDF</a>
+      <button
+        type="button"
+        onclick="window.print()"
+        style="
+          font: inherit;
+          font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+          font-weight: 600;
+          cursor: pointer;
+          padding: 6px 12px;
+          border-radius: 8px;
+          border: 1px solid #ccc;
+          background: #fff;
+        "
+      >
+        Print
+      </button>
+    </div>
+
+    <article class="sheet">
+      <h1>Nischal Bhandari</h1>
+      <p class="contact">
+        <a href="tel:+15634195246">563-419-5246</a>
+        <span class="sep">|</span>
+        <a href="mailto:bhanni01@luther.edu">bhanni01@luther.edu</a>
+        <span class="sep">|</span>
+        <a href="https://linkedin.com/in/bhanni01/" target="_blank" rel="noopener noreferrer"
+          >linkedin.com/in/bhanni01/</a
+        >
+        <span class="sep">|</span>
+        <a href="https://github.com/bhanni01" target="_blank" rel="noopener noreferrer"
+          >github.com/bhanni01</a
+        >
+        <span class="sep">|</span>
+        <a href="https://bhanni01.github.io/" target="_blank" rel="noopener noreferrer"
+          >bhanni01.github.io</a
+        >
+      </p>
+
+      <h2>Education</h2>
+      <div class="block">
+        <div class="block__head">
+          <span class="block__title">Luther College</span>
+          <span class="block__meta">Decorah, IA</span>
+        </div>
+        <div class="block__head" style="margin-top: 2px; font-weight: 400">
+          <span class="block__title" style="font-weight: 400"
+            >Bachelor of Arts in Computer Science, Minor in Data Science</span
+          >
+          <span class="block__meta">Aug. 2022 – May 2026</span>
+        </div>
+      </div>
+
+      <h2>Experience</h2>
+
+      <div class="block">
+        <div class="block__head">
+          <span class="block__title">Software Engineer Intern</span>
+          <span class="block__meta">Feb. 2026 – Present</span>
+        </div>
+        <p class="org">Mayo Clinic · Rochester, MN</p>
+        <ul>
+          <li>
+            Developed full-stack portal to facilitate collaborative image processing between
+            government &amp; healthcare providers
+          </li>
+          <li>
+            Implemented rigorous security protocols and data-privacy standards to ensure
+            compliance
+          </li>
+          <li>
+            Architected a specialized interface for supervised AI learning and clinician-led
+            diagnostic dataset annotation
+          </li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <div class="block__head">
+          <span class="block__title">Data Research Analyst</span>
+          <span class="block__meta">Oct. 2023 – Feb. 2026</span>
+        </div>
+        <p class="org">Kingland Systems · Clear Lake, IA</p>
+        <ul>
+          <li>
+            Conducted research for corporate entities and investment vehicles to identify and
+            validate entity relationships
+          </li>
+          <li>
+            Executed quality-assurance initiatives to strengthen dataset accuracy, improving
+            processing efficiency
+          </li>
+          <li>
+            Built automation pipelines and workflow improvement projects to maintain strict
+            data-quality controls
+          </li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <div class="block__head">
+          <span class="block__title">Co-Founder, Successful Exit</span>
+          <span class="block__meta">April 2021 – July 2025</span>
+        </div>
+        <p class="org">Kaamcha Inc. · Kathmandu, Nepal</p>
+        <ul>
+          <li>
+            Developed a full-stack web application using with Flask serving a REST API with
+            React as the frontend
+          </li>
+          <li>
+            Developed key features for onboarding, transactions, and communication, contributing
+            to strong user growth
+          </li>
+          <li>
+            Collaborated with 100+ clients and supported a successful capital raise and exit
+          </li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <div class="block__head">
+          <span class="block__title">Teaching Assistant: Intro to Computer Science</span>
+          <span class="block__meta">Aug. 2024 – Dec. 2024</span>
+        </div>
+        <p class="org">Luther College · Decorah, IA</p>
+        <ul>
+          <li>Lead weekly tutoring sessions to support students with assignments and core CS fundamentals</li>
+          <li>
+            Provided one-on-one guidance to strengthen problem-solving skills and reinforce course
+            material
+          </li>
+          <li>
+            Collaborated with the professor to track student progress and clarify challenging topics
+          </li>
+        </ul>
+      </div>
+
+      <h2>Projects</h2>
+
+      <p class="project-line">
+        Custom VPN | Python, Go, AES/Triple DES/Blowfish, HMAC/SHA256 · April 2025
+      </p>
+      <ul>
+        <li>
+          Developed a secure client-server VPN application with key negotiation via
+          Diffie-Hellman-Merkle key exchange
+        </li>
+        <li>
+          Implemented message encryption, authentication, and integrity checks using CBC mode and
+          HMAC with SHA256
+        </li>
+        <li>
+          Designed a network protocol for cipher negotiation, encrypted message exchange, &amp; live
+          client-server interaction
+        </li>
+      </ul>
+
+      <p class="project-line">
+        Patro | Flutter, Go, API development, Web Scraping, Git · Nov. 2024 – Jan. 2025
+      </p>
+      <ul>
+        <li>Developed a Solar+Lunar calendar application across Flutter mobile, web, and CLI platforms</li>
+        <li>Designed and implemented a JSON-based API to fetch and serve date and tithi data</li>
+        <li>
+          Built a feature-rich CLI and Chrome extension, including keyboard shortcuts and
+          customizable options
+        </li>
+      </ul>
+
+      <p class="project-line">
+        Personal Notebook | Python, Flask, React, PostgreSQL, Docker · April 2024
+      </p>
+      <ul>
+        <li>
+          Built a color-coded note-taking app with MVC architecture, supporting create, view, and
+          delete functionality
+        </li>
+        <li>Implemented form validation and local storage to preserve notes across reloads</li>
+        <li>Grouped notes by color and designed a responsive interface using Bulma CSS</li>
+      </ul>
+
+      <h2>Technical Skills</h2>
+      <div class="skills-grid">
+        <p>
+          <span class="skills-label">Languages:</span>
+          Java, Python, C/C++, SQL (Postgres), JavaScript, HTML/CSS, R
+        </p>
+        <p>
+          <span class="skills-label">Frameworks:</span>
+          React, Node.js, Flask, JUnit, WordPress, Material-UI, FastAPI
+        </p>
+        <p>
+          <span class="skills-label">Developer Tools:</span>
+          Git, Docker, AWS (certified), Google Cloud Platform, SQL/PostgreSQL, Power BI, JIRA
+        </p>
+        <p>
+          <span class="skills-label">Libraries:</span>
+          Pandas, NumPy, Matplotlib, Seaborn, SciPy, Express, Gorilla Mux, Riverpod
+        </p>
+      </div>
+    </article>
+
+    <p class="footer-note">
+      Web version of résumé ·
+      <a href="/nischalbhandari.pdf" download>Download PDF</a>
+    </p>
+  </body>
+</html>

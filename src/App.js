@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import './App.css';
 import myPhoto from './assets/me.jpg';
 
@@ -59,15 +60,50 @@ const principles = [
 ];
 
 const focusAreas = [
+  'Frontend engineering',
   'AI product workflows',
-  'Website remodeling and migration',
-  'Decision-support experiences',
-  'Security and privacy-minded tooling',
+  'Design systems and motion',
+  'Creative web interfaces',
 ];
 
 function App() {
+  const [pixelMode, setPixelMode] = useState(false);
+
   return (
-    <div className="site-shell">
+    <div className={`site-shell${pixelMode ? ' pixel-mode' : ''}`}>
+      {pixelMode ? (
+        <div className="pixel-world" aria-hidden="true">
+          <div className="pixel-world__sky" />
+          <div className="pixel-world__sun" />
+          <div className="pixel-world__cloud pixel-world__cloud--a" />
+          <div className="pixel-world__cloud pixel-world__cloud--b" />
+          <div className="pixel-world__ridge pixel-world__ridge--back" />
+          <div className="pixel-world__ridge pixel-world__ridge--front" />
+          <div className="pixel-world__trees">
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className="pixel-world__ground" />
+          <div className="pixel-world__hud">
+            <span>Biome: Decorah Plains</span>
+            <span>Quest: Internship Hunt</span>
+            <span>Build: Frontend + AI</span>
+          </div>
+          <div className="pixel-world__hotbar">
+            <span />
+            <span />
+            <span className="is-active" />
+            <span />
+            <span />
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+        </div>
+      ) : null}
       <div className="site-noise" aria-hidden="true" />
 
       <header className="topbar">
@@ -84,14 +120,45 @@ function App() {
       <main id="top">
         <section className="hero">
           <div className="hero-copy">
-            <p className="eyebrow">Product builder and full-stack engineer</p>
-            <h1>I build internet products that start messy and become usable.</h1>
-            <p className="hero-text">
-              I work across product thinking, interface design, backend systems, and AI
-              workflows. Most of my recent projects are about taking rough inputs,
-              weak flows, or stale websites and turning them into something clearer,
-              more useful, and easier to trust.
+            <p className="eyebrow">Student builder seeking internships</p>
+            <h1>Mayo Clinic intern, Luther College CS student, and frontend builder looking for the next serious team.</h1>
+            <p className="hero-lead">
+              I am currently a Software Engineer Intern at Mayo Clinic, where I help build secure
+              full-stack tooling for collaborative image workflows and clinician-led AI annotation.
             </p>
+            <p className="hero-text">
+              I study at{' '}
+              <a
+                className="inline-link"
+                href="https://www.luther.edu/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Luther College
+              </a>{' '}
+              in Decorah, Iowa, and I am looking for internship opportunities where I
+              can work on frontend engineering, product design, and AI-assisted web
+              experiences. I like interfaces with personality, clean systems behind
+              them, and just enough Minecraft energy
+              <button
+                type="button"
+                className="pixel-toggle"
+                onClick={() => setPixelMode((current) => !current)}
+                aria-pressed={pixelMode}
+              >
+                <span className="pixel-toggle__label">
+                  {pixelMode ? 'Pixel world on' : 'Press me'}
+                </span>
+              </button>{' '}
+              to make things memorable.
+            </p>
+
+            <div className="hero-signal" aria-label="Current status">
+              <span>Mayo Clinic intern</span>
+              <span>Open to internships</span>
+              <span>Luther College</span>
+              <span>AWS certified</span>
+            </div>
 
             <div className="hero-actions">
               <a className="button primary" href="#projects">
@@ -102,8 +169,7 @@ function App() {
               </a>
               <a
                 className="button secondary"
-                href={`${process.env.PUBLIC_URL || ''}/nischalbhandari.pdf`}
-                download
+                href={`${process.env.PUBLIC_URL || ''}/resume.html`}
               >
                 Resume
               </a>
@@ -117,15 +183,47 @@ function App() {
           </div>
 
           <aside className="hero-panel">
+            <div className="pixel-scene" aria-hidden="true">
+              <div className="pixel-scene__hud">
+                <span>LUTHER COLLEGE</span>
+                <span>DECORAH, IOWA</span>
+              </div>
+              <div className="pixel-scene__sun" />
+              <div className="pixel-scene__cloud pixel-scene__cloud--one" />
+              <div className="pixel-scene__cloud pixel-scene__cloud--two" />
+              <div className="pixel-scene__bluffs">
+                <span />
+                <span />
+                <span />
+              </div>
+              <div className="pixel-scene__ground" />
+              <div className="pixel-scene__river" />
+              <div className="pixel-scene__campus">
+                <span className="campus-block campus-block--building" />
+                <span className="campus-block campus-block--window-grid" />
+                <span className="campus-block campus-block--chapel" />
+                <span className="campus-block campus-block--tree-a" />
+                <span className="campus-block campus-block--tree-b" />
+              </div>
+              <div className="pixel-scene__logo">
+                <span className="pixel-shield">
+                  <span className="pixel-shield__l" />
+                </span>
+              </div>
+              <div className="pixel-scene__cubes">
+                <span />
+                <span />
+                <span />
+              </div>
+            </div>
             <img className="portrait" src={myPhoto} alt="Nischal Bhandari" />
             <div className="hero-panel-copy">
               <p className="eyebrow">Current pattern</p>
-              <h2>Build, review, rewire, simplify.</h2>
+              <h2>Frontend systems, product instinct, and real-world delivery.</h2>
               <p>
-                The projects in this workspace are not random experiments. They
-                are different versions of the same instinct: find a broken or
-                noisy workflow, tighten the system behind it, and make the
-                surface understandable.
+                The most useful version of my work sits between implementation and taste:
+                secure tooling at Mayo Clinic, product and automation experience from prior
+                roles, and a bias toward interfaces that feel distinctive instead of generic.
               </p>
             </div>
           </aside>
@@ -135,9 +233,9 @@ function App() {
           <article className="panel quote-panel">
             <p className="eyebrow">What I optimize for</p>
             <p className="quote">
-              Products should feel intentional. They should not waste the user's
-              time, burn money unnecessarily, or hide weak thinking behind
-              fancy visuals.
+              Interfaces should feel fast, expressive, and alive. The design can
+              have personality, but the product still has to be clear, usable,
+              and technically defensible.
             </p>
           </article>
 
@@ -146,15 +244,15 @@ function App() {
             <div className="metrics">
               <div>
                 <strong>5</strong>
-                <span>serious product threads represented here</span>
+                <span>projects that show how I think through product and frontend work</span>
               </div>
               <div>
-                <strong>AI + web</strong>
-                <span>is the dominant build pattern across current work</span>
+                <strong>Mayo Clinic</strong>
+                <span>current work includes secure portals and clinician-facing AI workflows</span>
               </div>
               <div>
-                <strong>Product-first</strong>
-                <span>most repos were reshaped around usability, not novelty</span>
+                <strong>Startup + research</strong>
+                <span>past work spans co-founding, automation, data quality, and teaching</span>
               </div>
             </div>
           </article>
@@ -207,7 +305,7 @@ function App() {
         <section className="approach-section" id="approach">
           <div className="section-heading">
             <p className="eyebrow">Approach</p>
-            <h2>How I tend to work</h2>
+            <h2>How I tend to build</h2>
           </div>
 
           <div className="approach-grid">
@@ -222,22 +320,26 @@ function App() {
         <section className="contact-section panel" id="contact">
           <div>
             <p className="eyebrow">Contact</p>
-            <h2>If you want to see more, start with the GitHub and the resume.</h2>
+            <h2>If you are hiring interns, this is the part where we should talk.</h2>
             <p>
-              This site is intentionally simple: it is a portfolio of real build
-              threads, not a decorative landing page.
+              I am a Luther College student building toward frontend and product
+              engineering roles. The work here is real, and I want to keep adding
+              stronger systems, stronger interfaces, and stronger shipped products.
             </p>
           </div>
           <div className="contact-actions">
             <a className="button primary" href="https://github.com/bhanni01">
               GitHub profile
             </a>
+            <a className="button secondary" href={`${process.env.PUBLIC_URL || ''}/resume.html`}>
+              View resume
+            </a>
             <a
               className="button secondary"
               href={`${process.env.PUBLIC_URL || ''}/nischalbhandari.pdf`}
               download
             >
-              Download resume
+              Download PDF
             </a>
           </div>
         </section>
