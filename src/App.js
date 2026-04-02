@@ -3,6 +3,16 @@ import myPhoto from './assets/me.jpg';
 
 const projects = [
   {
+    name: 'Kuonix',
+    status: 'Live',
+    url: 'https://kuonix.bhanni01.workers.dev/',
+    summary:
+      'A local-first workflow tool for high-volume photography that sorts RAW image sets by correction need before batch editing begins.',
+    detail:
+      'Positioned around issue-aware triage for exposure, white balance, contrast, and color problems so photographers can move faster into Photoshop and other finishing workflows.',
+    stack: ['HTML', 'CSS', 'JavaScript', 'Workflow design', 'Photography tooling'],
+  },
+  {
     name: 'RewriteKit',
     status: 'Live',
     url: 'https://rewritekit.vercel.app/',
@@ -135,7 +145,7 @@ function App() {
             <p className="eyebrow">Workspace snapshot</p>
             <div className="metrics">
               <div>
-                <strong>4</strong>
+                <strong>5</strong>
                 <span>serious product threads represented here</span>
               </div>
               <div>
