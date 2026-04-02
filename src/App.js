@@ -211,7 +211,7 @@ function App() {
           }}
         >
           <p className="fly-dialog__eyebrow">Oops</p>
-          <h3>You killed it. Wanna hear my last dream?</h3>
+          <h3>Why did you kill me? Now at least hear my last dream.</h3>
           {flyDreamOpen ? (
             <>
               <p className="fly-dialog__dream">
