@@ -46,12 +46,12 @@ const moreProjects = [
     stack: ['Next.js', 'TypeScript', 'OpenAI', 'Zod'],
   },
   {
-    name: 'AlmaData.io',
-    status: 'Beta',
-    url: null,
+    name: 'Alma',
+    status: 'Live',
+    url: 'https://almadata.io',
     summary:
-      'Zero-trust RAG middleware: 5-layer pipeline that strips PII before embedding, isolates tenants in separate ChromaDB collections, and re-runs a gatekeeper on every LLM response.',
-    stack: ['FastAPI', 'ChromaDB', 'Presidio NLP', 'SentenceTransformers'],
+      'Dental market intelligence platform: maps every competing practice in a client\'s area, identifies patient demand gaps by procedure and zip code, then executes precision paid ads, SEO, and Google Maps campaigns — with a guaranteed monthly lead target in writing.',
+    stack: ['Market Intelligence', 'Paid Ads', 'Local SEO', 'Lead Attribution'],
   },
   {
     name: 'Kuonix',
@@ -282,6 +282,7 @@ function App() {
           <h2>Let's talk.</h2>
           <p className="contact-lead">
             If you are hiring for full-time engineering roles, I would like to hear from you.
+            Book a 30-minute call below or reach out directly.
           </p>
           <div className="contact-actions">
             <a className="btn btn--primary" href="mailto:bhanni01@luther.edu">
@@ -306,6 +307,13 @@ function App() {
             <a className="btn btn--outline" href={`${pub}/resume.html`}>
               Resume
             </a>
+          </div>
+          <div className="calendly-wrap">
+            <div
+              className="calendly-inline-widget"
+              data-url="https://calendly.com/iamnischalbhandari/30min"
+              style={{ minWidth: '320px', height: '700px' }}
+            />
           </div>
         </section>
       </main>
