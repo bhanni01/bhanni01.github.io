@@ -1,8 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import myPhoto from './assets/me.jpg';
 
 const pub = process.env.PUBLIC_URL || '';
+
+/* ── scroll-reveal hook ── */
+function useScrollReveal() {
+  useEffect(() => {
+    const els = document.querySelectorAll('[data-reveal]');
+    if (!els.length) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            const delay = Number(e.target.dataset.delay || 0);
+            setTimeout(() => e.target.classList.add('revealed'), delay);
+            obs.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -32px 0px' }
+    );
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+}
 
 const featuredProjects = [
   {
@@ -20,7 +42,7 @@ const featuredProjects = [
     tagline: 'Flask app shipped to AWS EKS end-to-end',
     name: 'Finance Tracker + DevOps Pipeline',
     summary:
-      'A personal finance web app taken through a full production DevOps lifecycle: Dockerized with gunicorn, CI/CD via GitHub Actions pushing to Amazon ECR, and deployed to a Terraform-provisioned EKS cluster with rolling deploys.',
+      'A personal finance web app taken through a full production DevOps lifecycle: Dockerized with gunicorn, CI/CD via GitHub Actions pushing to Amazon ECR, deployed to a Terraform-provisioned EKS cluster with rolling deploys.',
     stack: ['Flask', 'Docker', 'Kubernetes', 'AWS EKS', 'Terraform', 'GitHub Actions'],
     screenshot: `${pub}/screenshots/finance-aws.png`,
     screenshotAlt: 'Finance Tracker running on AWS EKS via LoadBalancer',
@@ -100,7 +122,7 @@ context = "\\n".join(results["documents"][0])
 # augment and generate
 response = client.messages.create(
   model="claude-opus-4-8",
-  system="Answer only from the provided context.",
+  system="Only answer from provided context.",
   messages=[{
     "role": "user",
     "content": f"{context}\\n\\n{user_question}"
@@ -109,6 +131,7 @@ response = client.messages.create(
 
 function App() {
   const [pixelMode, setPixelMode] = useState(false);
+  useScrollReveal();
 
   return (
     <div className={`site${pixelMode ? ' pixel' : ''}`}>
@@ -124,7 +147,7 @@ function App() {
           <div className="pixel-bg__hud">
             <span>Biome: Decorah Plains</span>
             <span>Quest: Job Hunt</span>
-            <span>Build: Full-stack + AI</span>
+            <span>Build: AI + Full-stack</span>
           </div>
         </div>
       )}
@@ -148,14 +171,21 @@ function App() {
       </header>
 
       <main id="top">
+        {/* ── HERO ── */}
         <section className="hero">
-          <p className="eyebrow">Software engineer — open to full-time roles</p>
-          <h1>Mayo Clinic intern. Luther College CS. Full-stack builder.</h1>
-          <p className="hero-lead">
-            I build secure REST APIs, AI-powered workflows, and cloud infrastructure.
-            Looking for a team where I can design, implement, and keep making the product sharper.
+          <div className="hero-grid" aria-hidden="true" />
+          <p className="eyebrow hero-anim-1">
+            AI engineer · Full-stack · Open to full-time
           </p>
-          <div className="hero-actions">
+          <h1 className="hero-anim-2">
+            Fine-tuning models.<br />Shipping full-stack products.
+          </h1>
+          <p className="hero-lead hero-anim-3">
+            I build and fine-tune language models, engineer RAG pipelines, and ship
+            secure full-stack systems into production. Currently at Mayo Clinic — looking
+            for a team where AI engineering meets real product impact.
+          </p>
+          <div className="hero-actions hero-anim-4">
             <a className="btn btn--primary" href="#work">See work</a>
             <a
               className="btn btn--outline"
@@ -169,21 +199,27 @@ function App() {
               Resume
             </a>
           </div>
-          <div className="status-chips">
+          <div className="status-chips hero-anim-5">
             <span>Mayo Clinic intern</span>
+            <span>AI engineer</span>
+            <span>Fine-tuning</span>
             <span>Open to full-time</span>
-            <span>Luther College</span>
-            <span>AWS certified</span>
           </div>
         </section>
 
+        {/* ── FEATURED WORK ── */}
         <section className="section" id="work">
-          <p className="eyebrow">Selected work</p>
-          <h2>Featured projects</h2>
+          <p className="eyebrow" data-reveal>Selected work</p>
+          <h2 data-reveal data-delay="80">Featured projects</h2>
 
           <div className="featured-grid">
-            {featuredProjects.map((p) => (
-              <article className="featured-card" key={p.id}>
+            {featuredProjects.map((p, i) => (
+              <article
+                className="featured-card"
+                key={p.id}
+                data-reveal
+                data-delay={i * 90}
+              >
                 <div className="featured-card__visual">
                   {p.screenshot ? (
                     <img
@@ -216,10 +252,15 @@ function App() {
 
           <hr className="section-divider" />
 
-          <h2>More work</h2>
+          <h2 data-reveal>More work</h2>
           <div className="more-grid">
-            {moreProjects.map((p) => (
-              <article className="project-card" key={p.name}>
+            {moreProjects.map((p, i) => (
+              <article
+                className="project-card"
+                key={p.name}
+                data-reveal
+                data-delay={i * 60}
+              >
                 <div>
                   <p className="project-status">{p.status}</p>
                   <h3 className="project-name">{p.name}</h3>
@@ -245,28 +286,30 @@ function App() {
           </div>
         </section>
 
+        {/* ── ABOUT ── */}
         <section className="section about-section" id="about">
-          <p className="eyebrow">About</p>
+          <p className="eyebrow" data-reveal>About</p>
           <div className="about-grid">
-            <div className="about-copy">
+            <div className="about-copy" data-reveal data-delay="80">
               <h2>How I build</h2>
               <p>
                 I prefer systems that stay cheap, observable, and simple before they
                 become clever. Most of my recent work sits at the intersection of AI
-                engineering, full-stack delivery, and security-aware product design.
+                engineering — fine-tuning, RAG, and agentic pipelines — and secure
+                full-stack delivery.
               </p>
               <p>
-                I am a Luther College CS student finishing up May 2026, looking for full-time
-                roles where I can work on real problems with a team that cares about craft.
+                I am a Luther College CS student finishing up May 2026, looking for
+                full-time roles where I can build meaningful AI products with a team
+                that cares about craft.
               </p>
               <ul className="focus-list">
-                <li>Full-stack engineering</li>
-                <li>AI product workflows</li>
-                <li>Cloud infrastructure</li>
-                <li>Security-aware design</li>
+                {['AI fine-tuning & RAG', 'Full-stack engineering', 'Cloud infrastructure', 'Security-aware design'].map((item, i) => (
+                  <li key={item} data-reveal data-delay={200 + i * 60}>{item}</li>
+                ))}
               </ul>
             </div>
-            <div className="about-photo-col">
+            <div className="about-photo-col" data-reveal data-delay="160">
               <img src={myPhoto} alt="Nischal Bhandari" className="portrait" />
               <p className="about-caption">
                 Luther College · Decorah, Iowa
@@ -277,14 +320,15 @@ function App() {
           </div>
         </section>
 
+        {/* ── CONTACT ── */}
         <section className="contact-section" id="contact">
-          <p className="eyebrow">Contact</p>
-          <h2>Let's talk.</h2>
-          <p className="contact-lead">
+          <p className="eyebrow" data-reveal>Contact</p>
+          <h2 data-reveal data-delay="80">Let's talk.</h2>
+          <p className="contact-lead" data-reveal data-delay="160">
             If you are hiring for full-time engineering roles, I would like to hear from you.
             Book a 30-minute call below or reach out directly.
           </p>
-          <div className="contact-actions">
+          <div className="contact-actions" data-reveal data-delay="220">
             <a className="btn btn--primary" href="mailto:bhanni01@luther.edu">
               Send email
             </a>
@@ -308,7 +352,7 @@ function App() {
               Resume
             </a>
           </div>
-          <div className="calendly-wrap">
+          <div className="calendly-wrap" data-reveal data-delay="300">
             <div
               className="calendly-inline-widget"
               data-url="https://calendly.com/iamnischalbhandari/30min"
