@@ -1,535 +1,318 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './App.css';
 import myPhoto from './assets/me.jpg';
 
-const projects = [
+const pub = process.env.PUBLIC_URL || '';
+
+const featuredProjects = [
+  {
+    id: 'eduagent',
+    tagline: 'AI tutoring platform',
+    name: 'EduAgent Nepal',
+    summary:
+      'RAG-powered student chatbot locked to curriculum content via ChromaDB, with a real-time parent dashboard built on OpenAI tool-call APIs. Includes prompt injection defenses and full security audit logging.',
+    stack: ['Python', 'FastAPI', 'OpenAI', 'ChromaDB', 'RAG', 'React', 'SQLite'],
+    screenshot: `${pub}/screenshots/eduagent-chat.png`,
+    screenshotAlt: 'EduAgent Nepal student chat showing RAG curriculum restriction',
+  },
+  {
+    id: 'finance',
+    tagline: 'Flask app shipped to AWS EKS end-to-end',
+    name: 'Finance Tracker + DevOps Pipeline',
+    summary:
+      'A personal finance web app taken through a full production DevOps lifecycle: Dockerized with gunicorn, CI/CD via GitHub Actions pushing to Amazon ECR, and deployed to a Terraform-provisioned EKS cluster with rolling deploys.',
+    stack: ['Flask', 'Docker', 'Kubernetes', 'AWS EKS', 'Terraform', 'GitHub Actions'],
+    screenshot: `${pub}/screenshots/finance-aws.png`,
+    screenshotAlt: 'Finance Tracker running on AWS EKS via LoadBalancer',
+  },
+  {
+    id: 'ai-rag',
+    tagline: 'LLMs, RAG, and tool-use agents — built from scratch',
+    name: 'AI Engineering Curriculum',
+    summary:
+      'An 8-hour hands-on curriculum: LLM API basics, zero-shot / few-shot / chain-of-thought prompting, embedding-based semantic search, a complete RAG pipeline, and a production-style support agent with tool use and multi-turn conversation memory.',
+    stack: ['Python', 'Anthropic Claude', 'RAG', 'ChromaDB', 'Tool Use', 'Embeddings'],
+    screenshot: null,
+  },
+];
+
+const moreProjects = [
+  {
+    name: 'alfred_',
+    status: 'Live',
+    url: 'https://alfred-hazel.vercel.app/',
+    summary:
+      'Agentic decision pipeline: deterministic signal extraction decides EXECUTE, CONFIRM, CLARIFY, or REFUSE before the LLM is called — with prompt injection resistance and a full observability UI.',
+    stack: ['Next.js', 'TypeScript', 'OpenAI', 'Zod'],
+  },
+  {
+    name: 'AlmaData.io',
+    status: 'Beta',
+    url: null,
+    summary:
+      'Zero-trust RAG middleware: 5-layer pipeline that strips PII before embedding, isolates tenants in separate ChromaDB collections, and re-runs a gatekeeper on every LLM response.',
+    stack: ['FastAPI', 'ChromaDB', 'Presidio NLP', 'SentenceTransformers'],
+  },
   {
     name: 'Kuonix',
     status: 'Live',
     url: 'https://kuonix.bhanni01.workers.dev/',
     summary:
-      'A local-first workflow tool for high-volume photography that sorts RAW image sets by correction need before batch editing begins.',
-    detail:
-      'Positioned around issue-aware triage for exposure, white balance, contrast, and color problems so photographers can move faster into Photoshop and other finishing workflows.',
-    stack: ['HTML', 'CSS', 'JavaScript', 'Workflow design', 'Photography tooling'],
+      'Local-first RAW image triage for photographers. Issue-aware sorting by exposure, white balance, contrast, and color before batch editing. Senior CS capstone, team of three.',
+    stack: ['Next.js', 'TypeScript', 'Cloudflare Workers'],
   },
   {
     name: 'RewriteKit',
     status: 'Live',
     url: 'https://rewritekit.vercel.app/',
     summary:
-      'Structured AI rewrite workflows for turning rough text into LinkedIn posts, prompts, emails, summaries, tables, and presentation bullets.',
-    detail:
-      'Built as a Next.js product with transform APIs, low-cost OpenAI usage, freemium gating, refinement actions, and a table-aware workspace.',
-    stack: ['Next.js', 'React', 'TypeScript', 'OpenAI', 'Stripe'],
+      'REST endpoints behind structured AI rewrite workflows — LinkedIn posts, emails, summaries, tables — with freemium gating and iterative refinement actions.',
+    stack: ['Next.js', 'OpenAI', 'TypeScript', 'Stripe'],
   },
   {
-    name: 'MeroChoice',
-    status: 'Live',
-    url: 'https://merochoice.com/',
+    name: 'Project Tracker',
+    status: 'Complete',
+    url: null,
     summary:
-      'Bilingual decision-support for Nepal: election, banking, career, education, stocks, and more—structured briefs instead of gimmick quizzes.',
-    detail:
-      'Built for Nepali and English audiences with clear recommendations, confidence, watchouts, and next steps, plus optional low-cost AI insight where it helps.',
-    stack: ['Next.js', 'React', 'OpenAI', 'Product design'],
+      'Full-stack app for a Nepal Government engineering office tracking Roads and Bridges across fiscal years — role-aware auth, atomic fiscal-year rollover, Nepali calendar dates, and five Excel export templates.',
+    stack: ['Next.js', 'PostgreSQL', 'Prisma', 'Auth.js', 'Vitest'],
   },
   {
-    name: 'SwiftShift',
-    status: 'Product exploration',
-    summary:
-      'An SEO-safe migration workflow for turning legacy websites into runnable Next.js exports with redirect manifests and verification reports.',
-    detail:
-      'The strongest part is the positioning: preserve SEO-critical signals, produce auditable migration artifacts, and reduce the risk of traffic loss during redesigns.',
-    stack: ['Next.js', 'Migration tooling', 'SEO systems', 'Research'],
-  },
-  {
-    name: 'PasswordLocker',
+    name: 'GasSplit',
     status: 'In progress',
+    url: null,
     summary:
-      'A security-focused password management backend with authentication, hashing, and a Prisma-backed data layer.',
-    detail:
-      'Current foundation includes Express, Prisma, bcrypt, and JWT, aimed at building a practical secure utility instead of a toy CRUD app.',
-    stack: ['Node.js', 'Express', 'Prisma', 'JWT', 'bcrypt'],
+      'React Native gas-cost splitting app: QR friend codes, real EPA MPG data, Supabase real-time chat, and push notifications via Edge Functions.',
+    stack: ['React Native', 'Expo', 'Supabase', 'TypeScript'],
   },
 ];
 
-const principles = [
-  'I like rebuilding weak flows into products people can actually use, not just demo.',
-  'I prefer systems that stay cheap, observable, and simple before they become clever.',
-  'Most of my recent work sits at the intersection of AI UX, product positioning, and full-stack delivery.',
-];
+const RAG_CODE = `client = anthropic.Anthropic()
+collection = chroma.get_collection("syllabus")
 
-const focusAreas = [
-  'Full-stack engineering',
-  'AI product workflows',
-  'Design systems and motion',
-  'Creative web interfaces',
-];
+# semantic retrieval
+results = collection.query(
+  query_texts=[user_question],
+  n_results=5
+)
+context = "\\n".join(results["documents"][0])
+
+# augment and generate
+response = client.messages.create(
+  model="claude-opus-4-8",
+  system="Answer only from the provided context.",
+  messages=[{
+    "role": "user",
+    "content": f"{context}\\n\\n{user_question}"
+  }]
+)`;
 
 function App() {
   const [pixelMode, setPixelMode] = useState(false);
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const [flyAlive, setFlyAlive] = useState(true);
-  const [flyPos, setFlyPos] = useState({ x: 180, y: 160, rotation: 0 });
-  const [flyDialogOpen, setFlyDialogOpen] = useState(false);
-  const [flyDreamOpen, setFlyDreamOpen] = useState(false);
-  const [flyDialogPos, setFlyDialogPos] = useState({ x: 180, y: 160 });
-
-  useEffect(() => {
-    if (pixelMode) {
-      setFlyDialogOpen(false);
-      return undefined;
-    }
-
-    if (!flyAlive) {
-      return undefined;
-    }
-
-    const moveFly = () => {
-      const nextX = 72 + Math.floor(Math.random() * Math.max(window.innerWidth - 220, 120));
-      const nextY = 120 + Math.floor(Math.random() * Math.max(window.innerHeight - 300, 120));
-      const nextRotation = -24 + Math.floor(Math.random() * 48);
-      setFlyPos({ x: nextX, y: nextY, rotation: nextRotation });
-    };
-
-    moveFly();
-    const intervalId = window.setInterval(moveFly, 1200);
-    return () => {
-      window.clearInterval(intervalId);
-    };
-  }, [pixelMode, flyAlive]);
-
-  useEffect(() => {
-    if (!flyDialogOpen) {
-      return undefined;
-    }
-
-    const timeoutId = window.setTimeout(() => {
-      setFlyDialogOpen(false);
-      setFlyDreamOpen(false);
-    }, flyDreamOpen ? 9000 : 12000);
-
-    return () => window.clearTimeout(timeoutId);
-  }, [flyDialogOpen, flyDreamOpen]);
-
-  const handleFlyHit = () => {
-    setFlyAlive(false);
-    setFlyDialogPos({ x: flyPos.x, y: flyPos.y });
-    setFlyDialogOpen(true);
-    setFlyDreamOpen(false);
-  };
 
   return (
-    <div
-      className={`site-shell${pixelMode ? ' pixel-mode' : ''}${!pixelMode && flyAlive ? ' fly-hunt-active' : ''}`}
-      onMouseMove={(event) =>
-        setCursorPos({
-          x: event.clientX,
-          y: event.clientY,
-        })
-      }
-    >
-      {pixelMode ? (
-        <div className="pixel-world" aria-hidden="true">
-          <div className="pixel-world__sky" />
-          <div className="pixel-world__sun" />
-          <div className="pixel-world__cloud pixel-world__cloud--a" />
-          <div className="pixel-world__cloud pixel-world__cloud--b" />
-          <div className="pixel-world__ridge pixel-world__ridge--back" />
-          <div className="pixel-world__ridge pixel-world__ridge--front" />
-          <div className="pixel-world__trees">
-            <span />
-            <span />
-            <span />
-            <span />
-          </div>
-          <div className="pixel-world__ground" />
-          <div className="pixel-world__hud">
+    <div className={`site${pixelMode ? ' pixel' : ''}`}>
+      {pixelMode && (
+        <div className="pixel-bg" aria-hidden="true">
+          <div className="pixel-bg__sky" />
+          <div className="pixel-bg__sun" />
+          <div className="pixel-bg__cloud pixel-bg__cloud--a" />
+          <div className="pixel-bg__cloud pixel-bg__cloud--b" />
+          <div className="pixel-bg__ridge pixel-bg__ridge--back" />
+          <div className="pixel-bg__ridge pixel-bg__ridge--front" />
+          <div className="pixel-bg__ground" />
+          <div className="pixel-bg__hud">
             <span>Biome: Decorah Plains</span>
             <span>Quest: Job Hunt</span>
             <span>Build: Full-stack + AI</span>
           </div>
-          <div className="pixel-world__hotbar">
-            <span />
-            <span />
-            <span className="is-active" />
-            <span />
-            <span />
-            <span />
-            <span />
-            <span />
-            <span />
-          </div>
         </div>
-      ) : null}
-      <div className="site-noise" aria-hidden="true" />
-      {!pixelMode && flyAlive ? (
-        <>
-          <button
-            type="button"
-            className="fly-sprite"
-            style={{
-              left: `${flyPos.x}px`,
-              top: `${flyPos.y}px`,
-              transform: `translate(-50%, -50%) rotate(${flyPos.rotation}deg)`,
-            }}
-            onClick={handleFlyHit}
-            aria-label="Catch the fly"
-          >
-            <span className="fly-sprite__wing fly-sprite__wing--left" aria-hidden="true" />
-            <span className="fly-sprite__wing fly-sprite__wing--right" aria-hidden="true" />
-            <span className="fly-sprite__body" aria-hidden="true" />
-          </button>
-          <div
-            className="fly-hint"
-            style={{
-              left: `${flyPos.x}px`,
-              top: `${flyPos.y - 54}px`,
-            }}
-          >
-            kill me for a surprise
-          </div>
-          <div
-            className="swatter-cursor"
-            style={{
-              left: `${cursorPos.x}px`,
-              top: `${cursorPos.y}px`,
-            }}
-            aria-hidden="true"
-          />
-        </>
-      ) : null}
-      {!pixelMode && flyDialogOpen ? (
-        <div
-          className="fly-dialog"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Fly dream"
-          style={{
-            left: `${flyDialogPos.x}px`,
-            top: `${flyDialogPos.y}px`,
-          }}
-        >
-          <p className="fly-dialog__eyebrow">Oops</p>
-          <h3>Why did you kill me? Now at least hear my last dream.</h3>
-          {flyDreamOpen ? (
-            <>
-              <p className="fly-dialog__dream">
-                I wanted Nischal to be working with you.
-              </p>
-              <div className="fly-dialog__actions">
-                <a className="button primary" href={`${process.env.PUBLIC_URL || ''}/resume.html`}>
-                  Resume
-                </a>
-                <button
-                  type="button"
-                  className="button secondary"
-                  onClick={() => {
-                    setFlyDialogOpen(false);
-                    setFlyDreamOpen(false);
-                  }}
-                >
-                  Close
-                </button>
-              </div>
-            </>
-          ) : (
-            <div className="fly-dialog__actions">
-              <button type="button" className="button primary" onClick={() => setFlyDreamOpen(true)}>
-                Yes
-              </button>
-              <button
-                type="button"
-                className="button secondary"
-                onClick={() => {
-                  setFlyDialogOpen(false);
-                  setFlyDreamOpen(false);
-                }}
-              >
-                No
-              </button>
-            </div>
-          )}
-        </div>
-      ) : null}
+      )}
 
-      <header className="topbar">
-        <a className="wordmark" href="#top">
-          Nischal Bhandari
-        </a>
+      <header className="header">
+        <a className="wordmark" href="#top">Nischal Bhandari</a>
         <nav className="nav">
-          <a href="#projects">Projects</a>
-          <a href="#approach">Approach</a>
-          <a href="#contact">Contact</a>
+          <a href="#work">Work</a>
+          <a href="#about">About</a>
+          <a href={`${pub}/resume.html`}>Resume</a>
+          <button
+            className="pixel-toggle"
+            type="button"
+            onClick={() => setPixelMode((m) => !m)}
+            aria-pressed={pixelMode}
+            title="Toggle pixel mode"
+          >
+            {pixelMode ? '◼' : '◻'}
+          </button>
         </nav>
       </header>
 
       <main id="top">
         <section className="hero">
-          <div className="hero-copy">
-            {!pixelMode ? (
-              <>
-                <div className="hero-aurora" aria-hidden="true">
-                  <span className="hero-aurora__band hero-aurora__band--one" />
-                  <span className="hero-aurora__band hero-aurora__band--two" />
-                </div>
-                <div className="hero-stars" aria-hidden="true">
-                  <span className="hero-star hero-star--one" />
-                  <span className="hero-star hero-star--two" />
-                  <span className="hero-star hero-star--three" />
-                  <span className="hero-star hero-star--four" />
-                </div>
-              </>
-            ) : null}
-            <p className="eyebrow">Student builder looking for full-time roles</p>
-            <h1>Mayo Clinic intern, Luther College CS student, and full-stack builder looking for the next serious team.</h1>
-            <p className="hero-lead">
-              I am currently a Software Engineer Intern at Mayo Clinic, where I help build secure
-              full-stack tooling for collaborative image workflows and clinician-led AI annotation.
-            </p>
-            <p className="hero-text">
-              I study at{' '}
-              <a
-                className="inline-link"
-                href="https://www.luther.edu/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Luther College
-              </a>{' '}
-              in Decorah, Iowa, and I am looking for full-time opportunities where I
-              can work on full-stack engineering, product design, and AI-powered web
-              experiences. I am proficient in AI engineering, and I like interfaces with
-              personality, clean systems behind them, and just enough Minecraft energy
-              <button
-                type="button"
-                className="pixel-toggle"
-                onClick={() => setPixelMode((current) => !current)}
-                aria-pressed={pixelMode}
-              >
-                <span className="pixel-toggle__label">
-                  {pixelMode ? 'Pixel world on' : 'Press me'}
-                </span>
-              </button>{' '}
-              to make things memorable.
-            </p>
-
-            <div className="hero-signal" aria-label="Current status">
-              <span>Mayo Clinic intern</span>
-              <span>Open to full-time roles</span>
-              <span>Luther College</span>
-              <span>AWS certified</span>
-            </div>
-
-            {!pixelMode ? (
-              <div className="hero-marquee" aria-label="Selling points">
-                <span>Secure AI tooling</span>
-                <span>Product instinct</span>
-                <span>Full-stack delivery</span>
-                <span>Startup grit</span>
-              </div>
-            ) : null}
-
-            <div className="hero-actions">
-              <a className="button primary" href="#projects">
-                See projects
-              </a>
-              <a className="button secondary" href="https://github.com/bhanni01">
-                GitHub
-              </a>
-              <a
-                className="button secondary"
-                href={`${process.env.PUBLIC_URL || ''}/resume.html`}
-              >
-                Resume
-              </a>
-            </div>
-
-            {!pixelMode ? (
-              <p className="hero-proof">
-                Not looking for a decorative portfolio. Looking for a team that wants
-                someone who can design, implement, and keep making the product sharper.
-              </p>
-            ) : null}
-
-            <ul className="focus-list">
-              {focusAreas.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
+          <p className="eyebrow">Software engineer — open to full-time roles</p>
+          <h1>Mayo Clinic intern. Luther College CS. Full-stack builder.</h1>
+          <p className="hero-lead">
+            I build secure REST APIs, AI-powered workflows, and cloud infrastructure.
+            Looking for a team where I can design, implement, and keep making the product sharper.
+          </p>
+          <div className="hero-actions">
+            <a className="btn btn--primary" href="#work">See work</a>
+            <a
+              className="btn btn--outline"
+              href="https://github.com/bhanni01"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+            <a className="btn btn--outline" href={`${pub}/resume.html`}>
+              Resume
+            </a>
           </div>
-
-          <aside className="hero-panel">
-            {!pixelMode ? (
-              <div className="hero-orbit" aria-hidden="true">
-                <span className="hero-orbit__ring hero-orbit__ring--one" />
-                <span className="hero-orbit__ring hero-orbit__ring--two" />
-                <span className="hero-orbit__chip hero-orbit__chip--one">Mayo Clinic</span>
-                <span className="hero-orbit__chip hero-orbit__chip--two">Full-stack</span>
-                <span className="hero-orbit__chip hero-orbit__chip--three">AI + Product</span>
-              </div>
-            ) : null}
-            <div className="pixel-scene" aria-hidden="true">
-              <div className="pixel-scene__hud">
-                <span>LUTHER COLLEGE</span>
-                <span>DECORAH, IOWA</span>
-              </div>
-              <div className="pixel-scene__sun" />
-              <div className="pixel-scene__cloud pixel-scene__cloud--one" />
-              <div className="pixel-scene__cloud pixel-scene__cloud--two" />
-              <div className="pixel-scene__bluffs">
-                <span />
-                <span />
-                <span />
-              </div>
-              <div className="pixel-scene__ground" />
-              <div className="pixel-scene__river" />
-              <div className="pixel-scene__campus">
-                <span className="campus-block campus-block--building" />
-                <span className="campus-block campus-block--window-grid" />
-                <span className="campus-block campus-block--chapel" />
-                <span className="campus-block campus-block--tree-a" />
-                <span className="campus-block campus-block--tree-b" />
-              </div>
-              <div className="pixel-scene__logo">
-                <span className="pixel-shield">
-                  <span className="pixel-shield__l" />
-                </span>
-              </div>
-              <div className="pixel-scene__cubes">
-                <span />
-                <span />
-                <span />
-              </div>
-            </div>
-            <img className="portrait" src={myPhoto} alt="Nischal Bhandari" />
-            <div className="hero-panel-copy">
-              <p className="eyebrow">Current pattern</p>
-              <h2>Full-stack systems, product instinct, and real-world delivery.</h2>
-              <p>
-                The most useful version of my work sits between implementation and taste:
-                secure tooling at Mayo Clinic, product and automation experience from prior
-                roles, and a bias toward interfaces that feel distinctive instead of generic.
-              </p>
-            </div>
-          </aside>
+          <div className="status-chips">
+            <span>Mayo Clinic intern</span>
+            <span>Open to full-time</span>
+            <span>Luther College</span>
+            <span>AWS certified</span>
+          </div>
         </section>
 
-        <section className="intro-grid">
-          <article className="panel quote-panel">
-            <p className="eyebrow">What I optimize for</p>
-            <p className="quote">
-              Interfaces should feel fast, expressive, and alive. The design can
-              have personality, but the product still has to be clear, usable,
-              and technically defensible.
-            </p>
-          </article>
+        <section className="section" id="work">
+          <p className="eyebrow">Selected work</p>
+          <h2>Featured projects</h2>
 
-          <article className="panel metrics-panel">
-            <p className="eyebrow">Workspace snapshot</p>
-            <div className="metrics">
-              <div>
-                <strong>5</strong>
-                <span>projects that show how I think through product and engineering work</span>
-              </div>
-              <div>
-                <strong>Mayo Clinic</strong>
-                <span>current work includes secure portals and clinician-facing AI workflows</span>
-              </div>
-              <div>
-                <strong>Startup + research</strong>
-                <span>past work spans co-founding, automation, data quality, and teaching</span>
-              </div>
-            </div>
-          </article>
-        </section>
-
-        <section className="projects-section" id="projects">
-          <div className="section-heading">
-            <p className="eyebrow">Selected work</p>
-            <h2>Projects from my current workspace</h2>
-            <p>
-              These are the main projects I am actively building or have recently
-              reworked. The descriptions below are based on the actual repos in
-              this workspace, excluding the Claude codebase.
-            </p>
-          </div>
-
-          <div className="projects-grid">
-            {projects.map((project) => (
-              <article className="project-card" key={project.name}>
-                <div className="project-head">
-                  <div>
-                    <p className="project-status">{project.status}</p>
-                    <h3>{project.name}</h3>
+          <div className="featured-grid">
+            {featuredProjects.map((p) => (
+              <article className="featured-card" key={p.id}>
+                <div className="featured-card__visual">
+                  {p.screenshot ? (
+                    <img
+                      src={p.screenshot}
+                      alt={p.screenshotAlt}
+                      className="featured-card__img"
+                    />
+                  ) : (
+                    <div className="code-preview" aria-hidden="true">
+                      <div className="code-preview__bar">
+                        <span /><span /><span />
+                      </div>
+                      <pre className="code-preview__body">{RAG_CODE}</pre>
+                    </div>
+                  )}
+                </div>
+                <div className="featured-card__body">
+                  <p className="featured-card__tag">{p.tagline}</p>
+                  <h3 className="featured-card__name">{p.name}</h3>
+                  <p className="featured-card__summary">{p.summary}</p>
+                  <div className="tag-row">
+                    {p.stack.map((t) => (
+                      <span className="tag" key={t}>{t}</span>
+                    ))}
                   </div>
                 </div>
-                <p className="project-summary">{project.summary}</p>
-                <p className="project-detail">{project.detail}</p>
+              </article>
+            ))}
+          </div>
+
+          <hr className="section-divider" />
+
+          <h2>More work</h2>
+          <div className="more-grid">
+            {moreProjects.map((p) => (
+              <article className="project-card" key={p.name}>
+                <div>
+                  <p className="project-status">{p.status}</p>
+                  <h3 className="project-name">{p.name}</h3>
+                </div>
+                <p className="project-summary">{p.summary}</p>
                 <div className="tag-row">
-                  {project.stack.map((tag) => (
-                    <span className="tag" key={tag}>
-                      {tag}
-                    </span>
+                  {p.stack.map((t) => (
+                    <span className="tag" key={t}>{t}</span>
                   ))}
                 </div>
-                {project.url ? (
+                {p.url && (
                   <a
-                    className="project-live-link"
-                    href={project.url}
+                    className="project-link"
+                    href={p.url}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Visit live site
+                    Visit ↗
                   </a>
-                ) : null}
+                )}
               </article>
             ))}
           </div>
         </section>
 
-        <section className="approach-section" id="approach">
-          <div className="section-heading">
-            <p className="eyebrow">Approach</p>
-            <h2>How I tend to build</h2>
-          </div>
-
-          <div className="approach-grid">
-            {principles.map((item) => (
-              <article className="panel principle-panel" key={item}>
-                <p>{item}</p>
-              </article>
-            ))}
+        <section className="section about-section" id="about">
+          <p className="eyebrow">About</p>
+          <div className="about-grid">
+            <div className="about-copy">
+              <h2>How I build</h2>
+              <p>
+                I prefer systems that stay cheap, observable, and simple before they
+                become clever. Most of my recent work sits at the intersection of AI
+                engineering, full-stack delivery, and security-aware product design.
+              </p>
+              <p>
+                I am a Luther College CS student finishing up May 2026, looking for full-time
+                roles where I can work on real problems with a team that cares about craft.
+              </p>
+              <ul className="focus-list">
+                <li>Full-stack engineering</li>
+                <li>AI product workflows</li>
+                <li>Cloud infrastructure</li>
+                <li>Security-aware design</li>
+              </ul>
+            </div>
+            <div className="about-photo-col">
+              <img src={myPhoto} alt="Nischal Bhandari" className="portrait" />
+              <p className="about-caption">
+                Luther College · Decorah, Iowa
+                <br />
+                Mayo Clinic · Rochester, MN
+              </p>
+            </div>
           </div>
         </section>
 
-        <section className="contact-section panel" id="contact">
-          <div>
-            <p className="eyebrow">Contact</p>
-            <h2>If you are hiring for full-time roles, this is the part where we should talk.</h2>
-            <p>
-              I am a Luther College student building toward full-stack and product
-              engineering roles. The work here is real, and I want to keep adding
-              stronger systems, stronger interfaces, and stronger shipped products.
-            </p>
-          </div>
+        <section className="contact-section" id="contact">
+          <p className="eyebrow">Contact</p>
+          <h2>Let's talk.</h2>
+          <p className="contact-lead">
+            If you are hiring for full-time engineering roles, I would like to hear from you.
+          </p>
           <div className="contact-actions">
-            <a className="button primary" href="https://github.com/bhanni01">
-              GitHub profile
-            </a>
-            <a className="button secondary" href={`${process.env.PUBLIC_URL || ''}/resume.html`}>
-              View resume
+            <a className="btn btn--primary" href="mailto:bhanni01@luther.edu">
+              Send email
             </a>
             <a
-              className="button secondary"
-              href={`${process.env.PUBLIC_URL || ''}/nischalbhandari.pdf`}
-              download
+              className="btn btn--outline"
+              href="https://linkedin.com/in/bhanni01/"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Download PDF
+              LinkedIn
+            </a>
+            <a
+              className="btn btn--outline"
+              href="https://github.com/bhanni01"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+            <a className="btn btn--outline" href={`${pub}/resume.html`}>
+              Resume
             </a>
           </div>
         </section>
       </main>
+
+      <footer className="footer">
+        <span>Nischal Bhandari · {new Date().getFullYear()}</span>
+      </footer>
     </div>
   );
 }

@@ -17,13 +17,8 @@
         --accent: #0c58f2;
       }
 
-      * {
-        box-sizing: border-box;
-      }
-
-      html {
-        background: #e8e4dc;
-      }
+      * { box-sizing: border-box; }
+      html { background: #e8e4dc; }
 
       body {
         margin: 0;
@@ -55,19 +50,9 @@
         gap: 12px 18px;
       }
 
-      .toolbar a {
-        color: var(--accent);
-        font-weight: 600;
-        text-decoration: none;
-      }
-
-      .toolbar a:hover {
-        text-decoration: underline;
-      }
-
-      .toolbar__spacer {
-        flex: 1;
-      }
+      .toolbar a { color: var(--accent); font-weight: 600; text-decoration: none; }
+      .toolbar a:hover { text-decoration: underline; }
+      .toolbar__spacer { flex: 1; }
 
       h1 {
         margin: 0 0 6px;
@@ -75,7 +60,6 @@
         font-weight: 700;
         letter-spacing: 0.02em;
         text-align: center;
-        text-transform: none;
       }
 
       .contact {
@@ -86,19 +70,9 @@
         line-height: 1.45;
       }
 
-      .contact a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      .contact a:hover {
-        text-decoration: underline;
-      }
-
-      .sep {
-        margin: 0 0.35em;
-        color: #666;
-      }
+      .contact a { color: inherit; text-decoration: none; }
+      .contact a:hover { text-decoration: underline; }
+      .sep { margin: 0 0.35em; color: #666; }
 
       h2 {
         margin: 14px 0 6px;
@@ -110,13 +84,9 @@
         padding-bottom: 2px;
       }
 
-      h2:first-of-type {
-        margin-top: 4px;
-      }
+      h2:first-of-type { margin-top: 4px; }
 
-      .block {
-        margin: 10px 0 0;
-      }
+      .block { margin: 10px 0 0; }
 
       .block__head {
         display: flex;
@@ -127,9 +97,7 @@
         font-weight: 700;
       }
 
-      .block__title {
-        font-size: 11pt;
-      }
+      .block__title { font-size: 11pt; }
 
       .block__meta {
         font-size: 10.5pt;
@@ -144,14 +112,8 @@
         margin: 2px 0 4px;
       }
 
-      ul {
-        margin: 0;
-        padding-left: 1.15em;
-      }
-
-      li {
-        margin: 2px 0;
-      }
+      ul { margin: 0; padding-left: 1.15em; }
+      li { margin: 2px 0; }
 
       .project-line {
         margin: 10px 0 0;
@@ -159,18 +121,23 @@
         font-size: 11pt;
       }
 
+      .project-line .proj-stack {
+        font-weight: 400;
+        font-style: italic;
+      }
+
+      .project-line .proj-year {
+        float: right;
+        font-weight: 400;
+      }
+
       .skills-grid {
         margin: 8px 0 0;
         font-size: 10.5pt;
       }
 
-      .skills-grid p {
-        margin: 4px 0;
-      }
-
-      .skills-label {
-        font-weight: 700;
-      }
+      .skills-grid p { margin: 4px 0; }
+      .skills-label { font-weight: 700; }
 
       .footer-note {
         margin-top: 18px;
@@ -180,49 +147,24 @@
         font-family: system-ui, -apple-system, Segoe UI, sans-serif;
       }
 
-      .footer-note a {
-        color: var(--accent);
-        font-weight: 600;
-      }
+      .footer-note a { color: var(--accent); font-weight: 600; }
 
       @media print {
-        html {
-          background: #fff;
-        }
-
-        .toolbar,
-        .footer-note {
-          display: none !important;
-        }
-
+        html { background: #fff; }
+        .toolbar, .footer-note { display: none !important; }
         .sheet {
           margin: 0;
           padding: 0.5in 0.65in;
           box-shadow: none;
           max-width: none;
         }
-
-        body {
-          font-size: 11pt;
-        }
-
-        a {
-          color: #000 !important;
-          text-decoration: none !important;
-        }
+        body { font-size: 11pt; }
+        a { color: #000 !important; text-decoration: none !important; }
       }
 
       @media (max-width: 640px) {
-        .sheet {
-          margin: 0;
-          padding: 28px 20px 32px;
-          box-shadow: none;
-        }
-
-        .block__head {
-          flex-direction: column;
-          align-items: flex-start;
-        }
+        .sheet { margin: 0; padding: 28px 20px 32px; box-shadow: none; }
+        .block__head { flex-direction: column; align-items: flex-start; }
       }
     </style>
   </head>
@@ -234,16 +176,7 @@
       <button
         type="button"
         onclick="window.print()"
-        style="
-          font: inherit;
-          font-family: system-ui, -apple-system, Segoe UI, sans-serif;
-          font-weight: 600;
-          cursor: pointer;
-          padding: 6px 12px;
-          border-radius: 8px;
-          border: 1px solid #ccc;
-          background: #fff;
-        "
+        style="font: inherit; font-family: system-ui, -apple-system, Segoe UI, sans-serif; font-weight: 600; cursor: pointer; padding: 6px 12px; border-radius: 8px; border: 1px solid #ccc; background: #fff;"
       >
         Print
       </button>
@@ -256,17 +189,11 @@
         <span class="sep">|</span>
         <a href="mailto:bhanni01@luther.edu">bhanni01@luther.edu</a>
         <span class="sep">|</span>
-        <a href="https://linkedin.com/in/bhanni01/" target="_blank" rel="noopener noreferrer"
-          >linkedin.com/in/bhanni01/</a
-        >
+        <a href="https://linkedin.com/in/bhanni01/" target="_blank" rel="noopener noreferrer">linkedin.com/in/bhanni01/</a>
         <span class="sep">|</span>
-        <a href="https://github.com/bhanni01" target="_blank" rel="noopener noreferrer"
-          >github.com/bhanni01</a
-        >
+        <a href="https://github.com/bhanni01" target="_blank" rel="noopener noreferrer">github.com/bhanni01</a>
         <span class="sep">|</span>
-        <a href="https://bhanni01.github.io/" target="_blank" rel="noopener noreferrer"
-          >bhanni01.github.io</a
-        >
+        <a href="https://bhanni01.github.io/" target="_blank" rel="noopener noreferrer">bhanni01.github.io</a>
       </p>
 
       <h2>Education</h2>
@@ -276,9 +203,7 @@
           <span class="block__meta">Decorah, IA</span>
         </div>
         <div class="block__head" style="margin-top: 2px; font-weight: 400">
-          <span class="block__title" style="font-weight: 400"
-            >Bachelor of Arts in Computer Science, Minor in Data Science</span
-          >
+          <span class="block__title" style="font-weight: 400">Bachelor of Arts in Computer Science, Minor in Data Science</span>
           <span class="block__meta">Aug. 2022 – May 2026</span>
         </div>
       </div>
@@ -288,22 +213,14 @@
       <div class="block">
         <div class="block__head">
           <span class="block__title">Software Engineer Intern</span>
-          <span class="block__meta">Feb. 2026 – Present</span>
+          <span class="block__meta">Feb. 2026 – May 2026</span>
         </div>
         <p class="org">Mayo Clinic · Rochester, MN</p>
         <ul>
-          <li>
-            Developed full-stack portal to facilitate collaborative image processing between
-            government &amp; healthcare providers
-          </li>
-          <li>
-            Implemented rigorous security protocols and data-privacy standards to ensure
-            compliance
-          </li>
-          <li>
-            Architected a specialized interface for supervised AI learning and clinician-led
-            diagnostic dataset annotation
-          </li>
+          <li>Engineered a secure, multi-tenant REST API for collaborative DICOM medical image processing across healthcare and government providers</li>
+          <li>Implemented OAuth2/JWT authentication and role-based access control (RBAC) across four roles to enforce data-privacy compliance</li>
+          <li>Added per-IP rate limiting, audit logging, and OpenAPI/Swagger documentation, and containerized the full stack with Docker</li>
+          <li>Designed REST endpoints for a blind study workflow and clinician-led diagnostic dataset annotation</li>
         </ul>
       </div>
 
@@ -314,39 +231,9 @@
         </div>
         <p class="org">Kingland Systems · Clear Lake, IA</p>
         <ul>
-          <li>
-            Conducted research for corporate entities and investment vehicles to identify and
-            validate entity relationships
-          </li>
-          <li>
-            Executed quality-assurance initiatives to strengthen dataset accuracy, improving
-            processing efficiency
-          </li>
-          <li>
-            Built automation pipelines and workflow improvement projects to maintain strict
-            data-quality controls
-          </li>
-        </ul>
-      </div>
-
-      <div class="block">
-        <div class="block__head">
-          <span class="block__title">Co-Founder, Successful Exit</span>
-          <span class="block__meta">April 2021 – July 2025</span>
-        </div>
-        <p class="org">Kaamcha Inc. · Kathmandu, Nepal</p>
-        <ul>
-          <li>
-            Developed a full-stack web application using with Flask serving a REST API with
-            React as the frontend
-          </li>
-          <li>
-            Developed key features for onboarding, transactions, and communication, contributing
-            to strong user growth
-          </li>
-          <li>
-            Collaborated with 100+ clients and supported a successful capital raise and exit
-          </li>
+          <li>Built automation pipelines and data-validation services for high-volume entity-resolution workflows</li>
+          <li>Executed quality-assurance initiatives that improved dataset accuracy and processing efficiency</li>
+          <li>Collaborated cross-functionally in an Agile delivery environment to maintain data-quality and governance controls</li>
         </ul>
       </div>
 
@@ -357,91 +244,53 @@
         </div>
         <p class="org">Luther College · Decorah, IA</p>
         <ul>
-          <li>Lead weekly tutoring sessions to support students with assignments and core CS fundamentals</li>
-          <li>
-            Provided one-on-one guidance to strengthen problem-solving skills and reinforce course
-            material
-          </li>
-          <li>
-            Collaborated with the professor to track student progress and clarify challenging topics
-          </li>
+          <li>Led weekly tutoring sessions on core CS fundamentals, including object-oriented programming in Java</li>
+          <li>Provided one-on-one guidance to strengthen problem-solving skills and reinforce course material</li>
+          <li>Collaborated with the professor to track student progress and clarify challenging topics</li>
         </ul>
       </div>
 
       <h2>Projects</h2>
 
       <p class="project-line">
-        Kuonix | Next.js, TypeScript, Local-first architecture, Image Processing&nbsp;&nbsp;&nbsp;2025
+        <span class="proj-year">2026</span>
+        Process API Service <span class="proj-stack">| Java, Spring Boot, REST, OAuth2/JWT, JUnit, Docker</span>
       </p>
       <ul>
-        <li>
-          Built a local-first workflow tool for high-volume photography, optimizing RAW image
-          triage before batch editing
-        </li>
-        <li>
-          Designed issue-aware sorting for exposure, white balance, contrast, and color
-          correction to reduce manual review
-        </li>
-        <li>
-          Accelerated post-processing workflows by prioritizing images based on correction needs
-          for faster editing in external tools
-        </li>
+        <li>Built a Spring Boot Process API exposing versioned REST endpoints that orchestrate calls across downstream services</li>
+        <li>Secured endpoints with OAuth2/JWT and added resiliency patterns, request validation, and OpenAPI documentation</li>
+        <li>Wrote JUnit and behavior-driven API tests and containerized the service with Docker for CI</li>
       </ul>
 
       <p class="project-line">
-        RewriteKit | Next.js, OpenAI API, Prompt Engineering, Transform APIs&nbsp;&nbsp;&nbsp;2025
+        <span class="proj-year">Aug. 2025 – May 2026</span>
+        Kuonix (Senior Capstone, Team of 3) <span class="proj-stack">| Next.js, TypeScript, Local-first Architecture</span>
       </p>
       <ul>
-        <li>
-          Developed structured AI workflows to transform rough text into LinkedIn posts, emails,
-          prompts, and summaries
-        </li>
-        <li>
-          Built a table-aware workspace with iterative refinement actions for controlled content
-          generation
-        </li>
-        <li>
-          Designed a scalable freemium model with optimized API usage to minimize cost while
-          maintaining performance
-        </li>
+        <li>Built a local-first workflow tool for high-volume photography to optimize RAW image triage before batch editing</li>
+        <li>Designed issue-aware sorting for exposure, white balance, contrast, and color correction to cut manual review</li>
+        <li>Collaborated in a three-person team to deliver the Computer Science senior capstone; live at kuonix.bhanni01.workers.dev</li>
       </ul>
 
       <p class="project-line">
-        MeroChoice | Next.js, Bilingual UX, Decision Systems, AI Integration&nbsp;&nbsp;&nbsp;2025
+        <span class="proj-year">2025</span>
+        RewriteKit <span class="proj-stack">| Next.js, REST APIs, OpenAI API, Prompt Engineering</span>
       </p>
       <ul>
-        <li>
-          Built a bilingual (Nepali/English) decision-support platform for elections, banking,
-          careers, and education
-        </li>
-        <li>
-          Designed structured outputs including recommendations, confidence scores, risks, and
-          actionable next steps
-        </li>
-        <li>
-          Integrated optional AI insights to enhance decision quality while preserving clarity
-          and accessibility
-        </li>
+        <li>Developed structured AI workflows behind REST endpoints to transform rough text into LinkedIn posts, emails, prompts, and summaries</li>
+        <li>Built a table-aware workspace with iterative refinement actions for controlled content generation</li>
+        <li>Designed a scalable freemium model with optimized API usage to minimize cost while maintaining performance</li>
+        <li>Link: rewritekit.vercel.app</li>
       </ul>
 
       <h2>Technical Skills</h2>
       <div class="skills-grid">
-        <p>
-          <span class="skills-label">Languages:</span>
-          Java, Python, C/C++, SQL (Postgres), JavaScript, HTML/CSS, R
-        </p>
-        <p>
-          <span class="skills-label">Frameworks:</span>
-          React, Node.js, Flask, JUnit, WordPress, Material-UI, FastAPI
-        </p>
-        <p>
-          <span class="skills-label">Developer Tools:</span>
-          Git, Docker, AWS (certified), Google Cloud Platform, SQL/PostgreSQL, Power BI, JIRA
-        </p>
-        <p>
-          <span class="skills-label">Libraries:</span>
-          Pandas, NumPy, Matplotlib, Seaborn, SciPy, Express, Gorilla Mux, Riverpod
-        </p>
+        <p><span class="skills-label">Languages:</span> Java, Python, C/C++, SQL (PostgreSQL), JavaScript, TypeScript, HTML/CSS, R</p>
+        <p><span class="skills-label">Frameworks:</span> Spring Boot, React, Node.js, FastAPI, Flask, JUnit</p>
+        <p><span class="skills-label">API &amp; Backend:</span> REST API design, OAuth2 / JWT, OpenAPI/Swagger, RBAC, rate limiting, resiliency patterns</p>
+        <p><span class="skills-label">Developer Tools:</span> Git, Docker, Kubernetes, AWS, Google Cloud Platform, Postman, JIRA, CI/CD</p>
+        <p><span class="skills-label">Practices:</span> Agile / SAFe, API lifecycle &amp; governance, microservices, enterprise integration</p>
+        <p><span class="skills-label">Libraries:</span> Pandas, NumPy, Matplotlib, Seaborn, SciPy, Express</p>
       </div>
     </article>
 
