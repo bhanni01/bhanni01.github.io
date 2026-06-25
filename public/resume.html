@@ -4,151 +4,184 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Nischal Bhandari — Résumé</title>
-    <meta
-      name="description"
-      content="Résumé for Nischal Bhandari — education, experience, projects, and technical skills."
-    />
+    <meta name="description" content="Résumé for Nischal Bhandari — education, experience, projects, and technical skills." />
     <style>
+      /* ── tokens ── */
       :root {
-        --ink: #111111;
-        --muted: #333333;
-        --rule: #000000;
-        --paper: #ffffff;
+        --ink:    #111;
+        --muted:  #444;
+        --rule:   #000;
+        --paper:  #fff;
         --accent: #0c58f2;
+        --serif:  'Times New Roman', Times, Georgia, serif;
+        --sans:   system-ui, -apple-system, 'Segoe UI', sans-serif;
       }
 
-      * { box-sizing: border-box; }
+      *, *::before, *::after { box-sizing: border-box; }
+
       html { background: #e8e4dc; }
 
       body {
         margin: 0;
-        color: var(--ink);
-        font-family: 'Times New Roman', Times, Georgia, serif;
+        font-family: var(--serif);
         font-size: 11pt;
-        line-height: 1.35;
+        line-height: 1.38;
+        color: var(--ink);
         -webkit-font-smoothing: antialiased;
       }
 
-      .sheet {
-        max-width: 8.5in;
-        min-height: 11in;
-        margin: 24px auto;
-        padding: 0.55in 0.72in 0.65in;
-        background: var(--paper);
-        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
-      }
+      a { color: inherit; text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      p, ul, h1, h2, h3 { margin: 0; padding: 0; }
+      ul { list-style: disc; padding-left: 1.1em; }
+      li { margin: 2.5px 0; }
 
+      /* ── toolbar (web-only) ── */
       .toolbar {
         max-width: 8.5in;
-        margin: 0 auto 12px;
-        padding: 0 12px;
-        font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+        margin: 0 auto 10px;
+        padding: 0 10px;
+        font-family: var(--sans);
         font-size: 13px;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: 12px 18px;
+        gap: 10px 16px;
+      }
+      .toolbar a   { color: var(--accent); font-weight: 600; }
+      .toolbar__sp { flex: 1; }
+      .toolbar-btn {
+        font-family: var(--sans);
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 5px 12px;
+        border-radius: 7px;
+        border: 1px solid #ccc;
+        background: #fff;
+        color: var(--ink);
       }
 
-      .toolbar a { color: var(--accent); font-weight: 600; text-decoration: none; }
-      .toolbar a:hover { text-decoration: underline; }
-      .toolbar__spacer { flex: 1; }
+      /* ── paper sheet ── */
+      .sheet {
+        max-width: 8.5in;
+        min-height: 11in;
+        margin: 0 auto 40px;
+        padding: 0.55in 0.72in 0.6in;
+        background: var(--paper);
+        box-shadow: 0 6px 40px rgba(0,0,0,.13);
+      }
 
-      h1 {
-        margin: 0 0 6px;
-        font-size: 22pt;
+      /* ── name ── */
+      .resume-name {
+        font-size: 24pt;
         font-weight: 700;
-        letter-spacing: 0.02em;
         text-align: center;
+        letter-spacing: 0.015em;
+        margin-bottom: 5px;
       }
 
+      /* ── contact line ── */
       .contact {
         text-align: center;
         font-size: 10.5pt;
         color: var(--muted);
-        margin: 0 0 14px;
-        line-height: 1.45;
+        margin-bottom: 12px;
+        line-height: 1.5;
       }
+      .sep { margin: 0 0.3em; color: #888; }
 
-      .contact a { color: inherit; text-decoration: none; }
-      .contact a:hover { text-decoration: underline; }
-      .sep { margin: 0 0.35em; color: #666; }
-
+      /* ── section heading ── */
       h2 {
-        margin: 14px 0 6px;
-        font-size: 11pt;
+        font-family: var(--serif);
+        font-size: 10.5pt;
         font-weight: 700;
-        letter-spacing: 0.06em;
+        letter-spacing: 0.07em;
         text-transform: uppercase;
-        border-bottom: 1px solid var(--rule);
-        padding-bottom: 2px;
+        border-bottom: 1.25px solid var(--rule);
+        padding-bottom: 1.5px;
+        margin: 13px 0 6px;
       }
 
-      h2:first-of-type { margin-top: 4px; }
+      /* ── experience / education block ── */
+      .block { margin-top: 9px; }
 
-      .block { margin: 10px 0 0; }
-
-      .block__head {
+      .block-head {
         display: flex;
-        flex-wrap: wrap;
-        align-items: baseline;
         justify-content: space-between;
-        gap: 6px 12px;
-        font-weight: 700;
+        align-items: baseline;
+        gap: 8px;
+        flex-wrap: wrap;
       }
 
-      .block__title { font-size: 11pt; }
+      .block-title {
+        font-weight: 700;
+        font-size: 11pt;
+      }
 
-      .block__meta {
+      .block-date {
         font-size: 10.5pt;
         font-weight: 700;
         white-space: nowrap;
+        flex-shrink: 0;
       }
 
-      .org {
+      .block-org {
         font-style: italic;
         font-weight: 400;
         font-size: 10.5pt;
-        margin: 2px 0 4px;
+        color: var(--muted);
+        margin: 1px 0 4px;
       }
 
-      ul { margin: 0; padding-left: 1.15em; }
-      li { margin: 2px 0; }
+      /* ── project row ── */
+      .proj-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 12px;
+        margin-top: 9px;
+      }
 
-      .project-line {
-        margin: 10px 0 0;
+      .proj-left {
         font-weight: 700;
         font-size: 11pt;
+        flex: 1;
+        min-width: 0;
       }
 
-      .project-line .proj-stack {
+      .proj-stack {
         font-weight: 400;
         font-style: italic;
       }
 
-      .project-line .proj-year {
-        float: right;
-        font-weight: 400;
-      }
-
-      .skills-grid {
-        margin: 8px 0 0;
+      .proj-date {
         font-size: 10.5pt;
+        font-weight: 400;
+        white-space: nowrap;
+        flex-shrink: 0;
       }
 
-      .skills-grid p { margin: 4px 0; }
-      .skills-label { font-weight: 700; }
+      .proj-bullets {
+        margin-top: 2px;
+      }
 
+      /* ── skills ── */
+      .skills { margin-top: 6px; font-size: 10.5pt; }
+      .skills p { margin: 3.5px 0; line-height: 1.4; }
+      .sk { font-weight: 700; }
+
+      /* ── footer note (web-only) ── */
       .footer-note {
-        margin-top: 18px;
-        font-size: 9.5pt;
-        color: #555;
         text-align: center;
-        font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+        font-family: var(--sans);
+        font-size: 9.5pt;
+        color: #666;
+        margin-top: 10px;
       }
-
       .footer-note a { color: var(--accent); font-weight: 600; }
 
+      /* ── print ── */
       @media print {
         html { background: #fff; }
         .toolbar, .footer-note { display: none !important; }
@@ -157,65 +190,65 @@
           padding: 0.5in 0.65in;
           box-shadow: none;
           max-width: none;
+          min-height: 0;
         }
-        body { font-size: 11pt; }
-        a { color: #000 !important; text-decoration: none !important; }
       }
 
+      /* ── mobile ── */
       @media (max-width: 640px) {
-        .sheet { margin: 0; padding: 28px 20px 32px; box-shadow: none; }
-        .block__head { flex-direction: column; align-items: flex-start; }
+        .sheet { padding: 26px 18px 32px; box-shadow: none; margin-bottom: 0; }
+        .block-head  { flex-direction: column; }
+        .proj-row    { flex-direction: column; gap: 2px; }
+        .proj-date   { font-size: 10pt; }
       }
     </style>
   </head>
   <body>
+
+    <!-- toolbar -->
     <div class="toolbar">
       <a href="/">← Back to portfolio</a>
-      <span class="toolbar__spacer"></span>
+      <span class="toolbar__sp"></span>
       <a href="/nischalbhandari.pdf" download>Download PDF</a>
-      <button
-        type="button"
-        onclick="window.print()"
-        style="font: inherit; font-family: system-ui, -apple-system, Segoe UI, sans-serif; font-weight: 600; cursor: pointer; padding: 6px 12px; border-radius: 8px; border: 1px solid #ccc; background: #fff;"
-      >
-        Print
-      </button>
+      <button class="toolbar-btn" onclick="window.print()">Print</button>
     </div>
 
     <article class="sheet">
-      <h1>Nischal Bhandari</h1>
+
+      <!-- name -->
+      <h1 class="resume-name">Nischal Bhandari</h1>
+
+      <!-- contact -->
       <p class="contact">
-        <a href="tel:+15634195246">563-419-5246</a>
-        <span class="sep">|</span>
-        <a href="mailto:bhanni01@luther.edu">bhanni01@luther.edu</a>
-        <span class="sep">|</span>
-        <a href="https://linkedin.com/in/bhanni01/" target="_blank" rel="noopener noreferrer">linkedin.com/in/bhanni01/</a>
-        <span class="sep">|</span>
-        <a href="https://github.com/bhanni01" target="_blank" rel="noopener noreferrer">github.com/bhanni01</a>
-        <span class="sep">|</span>
+        <a href="tel:+15634195246">563-419-5246</a><span class="sep">|</span>
+        <a href="mailto:bhanni01@luther.edu">bhanni01@luther.edu</a><span class="sep">|</span>
+        <a href="https://linkedin.com/in/bhanni01/" target="_blank" rel="noopener noreferrer">linkedin.com/in/bhanni01/</a><span class="sep">|</span>
+        <a href="https://github.com/bhanni01" target="_blank" rel="noopener noreferrer">github.com/bhanni01</a><span class="sep">|</span>
         <a href="https://bhanni01.github.io/" target="_blank" rel="noopener noreferrer">bhanni01.github.io</a>
       </p>
 
+      <!-- ── EDUCATION ── -->
       <h2>Education</h2>
       <div class="block">
-        <div class="block__head">
-          <span class="block__title">Luther College</span>
-          <span class="block__meta">Decorah, IA</span>
+        <div class="block-head">
+          <span class="block-title">Luther College</span>
+          <span class="block-date">Decorah, IA</span>
         </div>
-        <div class="block__head" style="margin-top: 2px; font-weight: 400">
-          <span class="block__title" style="font-weight: 400">Bachelor of Arts in Computer Science, Minor in Data Science</span>
-          <span class="block__meta">Aug. 2022 – May 2026</span>
+        <div class="block-head" style="font-weight:400; margin-top:1px;">
+          <span style="font-size:10.5pt;">Bachelor of Arts in Computer Science, Minor in Data Science</span>
+          <span class="block-date" style="font-weight:400;">Aug. 2022 – May 2026</span>
         </div>
       </div>
 
+      <!-- ── EXPERIENCE ── -->
       <h2>Experience</h2>
 
       <div class="block">
-        <div class="block__head">
-          <span class="block__title">Software Engineer Intern</span>
-          <span class="block__meta">Feb. 2026 – May 2026</span>
+        <div class="block-head">
+          <span class="block-title">Software Engineer Intern</span>
+          <span class="block-date">Feb. 2026 – May 2026</span>
         </div>
-        <p class="org">Mayo Clinic · Rochester, MN</p>
+        <p class="block-org">Mayo Clinic &nbsp;·&nbsp; Rochester, MN</p>
         <ul>
           <li>Engineered a secure, multi-tenant REST API for collaborative DICOM medical image processing across healthcare and government providers</li>
           <li>Implemented OAuth2/JWT authentication and role-based access control (RBAC) across four roles to enforce data-privacy compliance</li>
@@ -225,11 +258,11 @@
       </div>
 
       <div class="block">
-        <div class="block__head">
-          <span class="block__title">Data Research Analyst</span>
-          <span class="block__meta">Oct. 2023 – Feb. 2026</span>
+        <div class="block-head">
+          <span class="block-title">Data Research Analyst</span>
+          <span class="block-date">Oct. 2023 – Feb. 2026</span>
         </div>
-        <p class="org">Kingland Systems · Clear Lake, IA</p>
+        <p class="block-org">Kingland Systems &nbsp;·&nbsp; Clear Lake, IA</p>
         <ul>
           <li>Built automation pipelines and data-validation services for high-volume entity-resolution workflows</li>
           <li>Executed quality-assurance initiatives that improved dataset accuracy and processing efficiency</li>
@@ -238,11 +271,11 @@
       </div>
 
       <div class="block">
-        <div class="block__head">
-          <span class="block__title">Teaching Assistant: Intro to Computer Science</span>
-          <span class="block__meta">Aug. 2024 – Dec. 2024</span>
+        <div class="block-head">
+          <span class="block-title">Teaching Assistant: Intro to Computer Science</span>
+          <span class="block-date">Aug. 2024 – Dec. 2024</span>
         </div>
-        <p class="org">Luther College · Decorah, IA</p>
+        <p class="block-org">Luther College &nbsp;·&nbsp; Decorah, IA</p>
         <ul>
           <li>Led weekly tutoring sessions on core CS fundamentals, including object-oriented programming in Java</li>
           <li>Provided one-on-one guidance to strengthen problem-solving skills and reinforce course material</li>
@@ -250,53 +283,66 @@
         </ul>
       </div>
 
+      <!-- ── PROJECTS ── -->
       <h2>Projects</h2>
 
-      <p class="project-line">
-        <span class="proj-year">2026</span>
-        Process API Service <span class="proj-stack">| Java, Spring Boot, REST, OAuth2/JWT, JUnit, Docker</span>
-      </p>
-      <ul>
+      <div class="proj-row">
+        <span class="proj-left">
+          Process API Service
+          <span class="proj-stack">&nbsp;|&nbsp; Java, Spring Boot, REST, OAuth2/JWT, JUnit, Docker</span>
+        </span>
+        <span class="proj-date">2026</span>
+      </div>
+      <ul class="proj-bullets">
         <li>Built a Spring Boot Process API exposing versioned REST endpoints that orchestrate calls across downstream services</li>
         <li>Secured endpoints with OAuth2/JWT and added resiliency patterns, request validation, and OpenAPI documentation</li>
         <li>Wrote JUnit and behavior-driven API tests and containerized the service with Docker for CI</li>
       </ul>
 
-      <p class="project-line">
-        <span class="proj-year">Aug. 2025 – May 2026</span>
-        Kuonix (Senior Capstone, Team of 3) <span class="proj-stack">| Next.js, TypeScript, Local-first Architecture</span>
-      </p>
-      <ul>
+      <div class="proj-row">
+        <span class="proj-left">
+          Kuonix <span style="font-weight:400;">(Senior Capstone, Team of 3)</span>
+          <span class="proj-stack">&nbsp;|&nbsp; Next.js, TypeScript, Local-first Architecture</span>
+        </span>
+        <span class="proj-date">Aug. 2025 – May 2026</span>
+      </div>
+      <ul class="proj-bullets">
         <li>Built a local-first workflow tool for high-volume photography to optimize RAW image triage before batch editing</li>
         <li>Designed issue-aware sorting for exposure, white balance, contrast, and color correction to cut manual review</li>
         <li>Collaborated in a three-person team to deliver the Computer Science senior capstone; live at kuonix.bhanni01.workers.dev</li>
       </ul>
 
-      <p class="project-line">
-        <span class="proj-year">2025</span>
-        RewriteKit <span class="proj-stack">| Next.js, REST APIs, OpenAI API, Prompt Engineering</span>
-      </p>
-      <ul>
+      <div class="proj-row">
+        <span class="proj-left">
+          RewriteKit
+          <span class="proj-stack">&nbsp;|&nbsp; Next.js, REST APIs, OpenAI API, Prompt Engineering</span>
+        </span>
+        <span class="proj-date">2025</span>
+      </div>
+      <ul class="proj-bullets">
         <li>Developed structured AI workflows behind REST endpoints to transform rough text into LinkedIn posts, emails, prompts, and summaries</li>
         <li>Built a table-aware workspace with iterative refinement actions for controlled content generation</li>
         <li>Designed a scalable freemium model with optimized API usage to minimize cost while maintaining performance</li>
         <li>Link: rewritekit.vercel.app</li>
       </ul>
 
+      <!-- ── TECHNICAL SKILLS ── -->
       <h2>Technical Skills</h2>
-      <div class="skills-grid">
-        <p><span class="skills-label">Languages:</span> Java, Python, C/C++, SQL (PostgreSQL), JavaScript, TypeScript, HTML/CSS, R</p>
-        <p><span class="skills-label">Frameworks:</span> Spring Boot, React, Node.js, FastAPI, Flask, JUnit</p>
-        <p><span class="skills-label">API &amp; Backend:</span> REST API design, OAuth2 / JWT, OpenAPI/Swagger, RBAC, rate limiting, resiliency patterns</p>
-        <p><span class="skills-label">Developer Tools:</span> Git, Docker, Kubernetes, AWS, Google Cloud Platform, Postman, JIRA, CI/CD</p>
-        <p><span class="skills-label">Practices:</span> Agile / SAFe, API lifecycle &amp; governance, microservices, enterprise integration</p>
-        <p><span class="skills-label">Libraries:</span> Pandas, NumPy, Matplotlib, Seaborn, SciPy, Express</p>
+      <div class="skills">
+        <p><span class="sk">Languages:</span> Java, Python, C/C++, SQL (PostgreSQL), JavaScript, TypeScript, HTML/CSS, R</p>
+        <p><span class="sk">Frameworks:</span> Spring Boot, React, Node.js, FastAPI, Flask, JUnit</p>
+        <p><span class="sk">API &amp; Backend:</span> REST API design, OAuth2 / JWT, OpenAPI/Swagger, RBAC, rate limiting, resiliency patterns</p>
+        <p><span class="sk">Developer Tools:</span> Git, Docker, Kubernetes, AWS, Google Cloud Platform, Postman, JIRA, CI/CD</p>
+        <p><span class="sk">Practices:</span> Agile / SAFe, API lifecycle &amp; governance, microservices, enterprise integration</p>
+        <p><span class="sk">Libraries:</span> Pandas, NumPy, Matplotlib, Seaborn, SciPy, Express</p>
       </div>
+
     </article>
 
     <p class="footer-note">
-      Web version of résumé ·
+      Web version of résumé &middot;
       <a href="/nischalbhandari.pdf" download>Download PDF</a>
     </p>
+
   </body>
 </html>
