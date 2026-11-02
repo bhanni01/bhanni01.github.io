@@ -194,7 +194,6 @@ function App() {
               height="800"
               alt="Nischal Bhandari in a navy t-shirt with arms crossed, standing in front of green trees"
             />
-            <figcaption>fig. 1 me.</figcaption>
           </figure>
           <p>
             i'm nischal bhandari, a software engineer and co-founder of{' '}

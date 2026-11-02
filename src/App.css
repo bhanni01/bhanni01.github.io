@@ -145,12 +145,6 @@ ul {
   height: auto;
 }
 
-.portrait figcaption {
-  color: var(--muted);
-  font-size: 0.9375rem;
-  margin-top: 0.5rem;
-}
-
 /* projects: one lettered run across all groups */
 .projects {
   counter-reset: project;
