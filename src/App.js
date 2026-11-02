@@ -1,370 +1,270 @@
-import { useEffect, useState } from 'react';
 import './App.css';
-import myPhoto from './assets/me.jpg';
+import photo from './assets/profile.jpeg';
 
-const pub = process.env.PUBLIC_URL || '';
+const EMAIL = 'bhanni01@luther.edu';
+const ESC_COMMIT = 'https://github.com/driceroland/Search/commit/ec00d49';
 
-/* ── scroll-reveal hook ── */
-function useScrollReveal() {
-  useEffect(() => {
-    const els = document.querySelectorAll('[data-reveal]');
-    if (!els.length) return;
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            const delay = Number(e.target.dataset.delay || 0);
-            setTimeout(() => e.target.classList.add('revealed'), delay);
-            obs.unobserve(e.target);
-          }
-        });
+const sections = [
+  { id: 'what-i-do', title: 'what i do' },
+  { id: 'projects', title: 'projects' },
+  { id: 'contact', title: 'contact' },
+];
+
+const projectGroups = [
+  {
+    label: 'start here',
+    items: [
+      {
+        name: 'antenna',
+        note: 'live radio from around the world, for ios. you never know what a frequency is playing until you hear it, and it learns what you care about from how you listen. no ratings, no like buttons. built at almadata, coming to the app store.',
       },
-      { threshold: 0.08, rootMargin: '0px 0px -32px 0px' }
-    );
-    els.forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
+      {
+        name: 'untold want',
+        url: 'https://untoldwant.com',
+        note: "site for a private members' travel collective. i led it alone, from design and product strategy through launch and handoff, with a cms the client runs without me.",
+      },
+    ],
+  },
+  {
+    label: 'you can use these',
+    items: [
+      {
+        name: 'boston area bestie',
+        url: 'https://bostonareabestie.com',
+        note: 'friend matching in boston, with an intro every wednesday.',
+      },
+      {
+        name: 'kuonix',
+        url: 'https://kuonix.bhanni01.workers.dev/',
+        note: 'sorts raw photo sets by what needs correcting, before batch editing. senior capstone, team of three.',
+      },
+      {
+        name: 'merochoice',
+        url: 'https://merochoice.com',
+        note: 'decision help for nepal in nepali and english: elections, banking, careers, education, stocks.',
+      },
+      {
+        name: 'rewritekit',
+        url: 'https://rewritekit.vercel.app/',
+        note: 'turns rough text into usable posts, emails, summaries, and tables.',
+      },
+      {
+        name: 'alfred_',
+        url: 'https://alfred-hazel.vercel.app/',
+        note: 'decides whether an ai agent should execute, confirm, clarify, or refuse, and shows every step of that decision.',
+      },
+      {
+        name: 'activity diagram creator',
+        url: 'https://bhanni01.github.io/activity_diagram/',
+        note: 'draw uml activity diagrams in the browser, then export a pdf or a prompt for coding agents.',
+      },
+    ],
+  },
+  {
+    label: 'you can read the code',
+    items: [
+      {
+        name: 'search',
+        url: 'https://github.com/driceroland/Search/commits?author=bhanni01',
+        note: "three features that landed in office commun's small macos browser, including the esc one above.",
+      },
+      {
+        name: 'eduagent nepal',
+        url: 'https://github.com/bhanni01/eduagent',
+        note: 'ai tutor for grades 4 to 7 that only answers from the syllabus, with a parent dashboard and prompt injection defenses.',
+      },
+      {
+        name: 'coolant formulation copilot',
+        url: 'https://github.com/bhanni01/coolantai',
+        note: 'five agents that turn a spec for a pfas-free data center coolant into ranked formulations and a lab plan.',
+      },
+      {
+        name: 'project tracker',
+        url: 'https://github.com/bhanni01/project_manager',
+        note: 'roads and bridges tracking for a nepal government engineering office, with nepali calendar dates and fiscal-year rollover.',
+      },
+      {
+        name: 'finance tracker',
+        url: 'https://github.com/bhanni01/financecs330',
+        note: 'a flask app from class, taken to aws eks with terraform, docker, and ci/cd.',
+      },
+      {
+        name: 'fillflow',
+        url: 'https://github.com/bhanni01/FillFlow',
+        note: 'word add-in that merges excel data into templated documents, including repeating tables.',
+      },
+      {
+        name: 'pair strategy lab',
+        url: 'https://github.com/bhanni01/almatrade',
+        note: 'etf pair-trading research: signal screener, stress tests, and backtests.',
+      },
+      {
+        name: 'swiftshift',
+        url: 'https://github.com/bhanni01/swiftshift',
+        note: 'product exploration: moves old websites to next.js without losing their seo signals.',
+      },
+      {
+        name: 'ai engineering fundamentals',
+        url: 'https://github.com/bhanni01/ai-engineering-fundamentals',
+        note: 'an 8-hour hands-on curriculum i built on prompts, embeddings, rag, and agents.',
+      },
+    ],
+  },
+  {
+    label: 'no public link',
+    items: [
+      {
+        name: 'mayo medical imaging portal',
+        note: 'joined three imaging services into one multi-tenant portal at mayo clinic, with patient data stripped in the browser before upload.',
+      },
+      {
+        name: 'kaamcha nepal',
+        note: "co-founded nepal's largest freelancing platform and built its app. 1,000+ registered freelancers.",
+      },
+      {
+        name: 'gassplit',
+        note: 'splits gas costs on shared rides, with qr friend codes, real epa mpg data, and live chat. in progress.',
+      },
+      {
+        name: 'kind roots',
+        note: 'brand, website, ad video, and social content for a plant-based food brand built on nepali sattu.',
+      },
+      {
+        name: 'passwordlocker',
+        note: 'backend for a password manager, with express, prisma, bcrypt, and jwt. in progress.',
+      },
+      {
+        name: 'trading_systems',
+        note: 'market making and time-series momentum strategies in python.',
+      },
+      {
+        name: 'stock_tracker',
+        note: 'design for a trading simulator driven by reddit sentiment.',
+      },
+    ],
+  },
+];
+
+function External({ href, children }) {
+  return (
+    <a href={href} target="_blank" rel="noreferrer">
+      {children}
+    </a>
+  );
 }
 
-const featuredProjects = [
-  {
-    id: 'eduagent',
-    tagline: 'AI tutoring platform',
-    name: 'EduAgent Nepal',
-    summary:
-      'RAG-powered student chatbot locked to curriculum content via ChromaDB, with a real-time parent dashboard built on OpenAI tool-call APIs. Includes prompt injection defenses and full security audit logging.',
-    stack: ['Python', 'FastAPI', 'OpenAI', 'ChromaDB', 'RAG', 'React', 'SQLite'],
-    screenshot: `${pub}/screenshots/eduagent-chat.png`,
-    screenshotAlt: 'EduAgent Nepal student chat showing RAG curriculum restriction',
-  },
-  {
-    id: 'finance',
-    tagline: 'Flask app shipped to AWS EKS end-to-end',
-    name: 'Finance Tracker + DevOps Pipeline',
-    summary:
-      'A personal finance web app taken through a full production DevOps lifecycle: Dockerized with gunicorn, CI/CD via GitHub Actions pushing to Amazon ECR, deployed to a Terraform-provisioned EKS cluster with rolling deploys.',
-    stack: ['Flask', 'Docker', 'Kubernetes', 'AWS EKS', 'Terraform', 'GitHub Actions'],
-    screenshot: `${pub}/screenshots/finance-aws.png`,
-    screenshotAlt: 'Finance Tracker running on AWS EKS via LoadBalancer',
-  },
-  {
-    id: 'ai-rag',
-    tagline: 'LLMs, RAG, and tool-use agents — built from scratch',
-    name: 'AI Engineering Curriculum',
-    summary:
-      'An 8-hour hands-on curriculum: LLM API basics, zero-shot / few-shot / chain-of-thought prompting, embedding-based semantic search, a complete RAG pipeline, and a production-style support agent with tool use and multi-turn conversation memory.',
-    stack: ['Python', 'Anthropic Claude', 'RAG', 'ChromaDB', 'Tool Use', 'Embeddings'],
-    screenshot: null,
-  },
-];
-
-const moreProjects = [
-  {
-    name: 'alfred_',
-    status: 'Live',
-    url: 'https://alfred-hazel.vercel.app/',
-    summary:
-      'Agentic decision pipeline: deterministic signal extraction decides EXECUTE, CONFIRM, CLARIFY, or REFUSE before the LLM is called — with prompt injection resistance and a full observability UI.',
-    stack: ['Next.js', 'TypeScript', 'OpenAI', 'Zod'],
-  },
-  {
-    name: 'Alma',
-    status: 'Live',
-    url: 'https://almadata.io',
-    summary:
-      'Dental market intelligence platform: maps every competing practice in a client\'s area, identifies patient demand gaps by procedure and zip code, then executes precision paid ads, SEO, and Google Maps campaigns — with a guaranteed monthly lead target in writing.',
-    stack: ['Market Intelligence', 'Paid Ads', 'Local SEO', 'Lead Attribution'],
-  },
-  {
-    name: 'Kuonix',
-    status: 'Live',
-    url: 'https://kuonix.bhanni01.workers.dev/',
-    summary:
-      'Local-first RAW image triage for photographers. Issue-aware sorting by exposure, white balance, contrast, and color before batch editing. Senior CS capstone, team of three.',
-    stack: ['Next.js', 'TypeScript', 'Cloudflare Workers'],
-  },
-  {
-    name: 'RewriteKit',
-    status: 'Live',
-    url: 'https://rewritekit.vercel.app/',
-    summary:
-      'REST endpoints behind structured AI rewrite workflows — LinkedIn posts, emails, summaries, tables — with freemium gating and iterative refinement actions.',
-    stack: ['Next.js', 'OpenAI', 'TypeScript', 'Stripe'],
-  },
-  {
-    name: 'Project Tracker',
-    status: 'Complete',
-    url: null,
-    summary:
-      'Full-stack app for a Nepal Government engineering office tracking Roads and Bridges across fiscal years — role-aware auth, atomic fiscal-year rollover, Nepali calendar dates, and five Excel export templates.',
-    stack: ['Next.js', 'PostgreSQL', 'Prisma', 'Auth.js', 'Vitest'],
-  },
-  {
-    name: 'GasSplit',
-    status: 'In progress',
-    url: null,
-    summary:
-      'React Native gas-cost splitting app: QR friend codes, real EPA MPG data, Supabase real-time chat, and push notifications via Edge Functions.',
-    stack: ['React Native', 'Expo', 'Supabase', 'TypeScript'],
-  },
-];
-
-const RAG_CODE = `client = anthropic.Anthropic()
-collection = chroma.get_collection("syllabus")
-
-# semantic retrieval
-results = collection.query(
-  query_texts=[user_question],
-  n_results=5
-)
-context = "\\n".join(results["documents"][0])
-
-# augment and generate
-response = client.messages.create(
-  model="claude-opus-4-8",
-  system="Only answer from provided context.",
-  messages=[{
-    "role": "user",
-    "content": f"{context}\\n\\n{user_question}"
-  }]
-)`;
+function Section({ number, children }) {
+  const { id, title } = sections[number - 1];
+  return (
+    <section id={id} className="section" aria-labelledby={`${id}-title`}>
+      <header className="running-head">
+        <h2 id={`${id}-title`}>{title}</h2>
+        <span aria-hidden="true">{number}</span>
+      </header>
+      {children}
+    </section>
+  );
+}
 
 function App() {
-  const [pixelMode, setPixelMode] = useState(false);
-  useScrollReveal();
-
   return (
-    <div className={`site${pixelMode ? ' pixel' : ''}`}>
-      {pixelMode && (
-        <div className="pixel-bg" aria-hidden="true">
-          <div className="pixel-bg__sky" />
-          <div className="pixel-bg__sun" />
-          <div className="pixel-bg__cloud pixel-bg__cloud--a" />
-          <div className="pixel-bg__cloud pixel-bg__cloud--b" />
-          <div className="pixel-bg__ridge pixel-bg__ridge--back" />
-          <div className="pixel-bg__ridge pixel-bg__ridge--front" />
-          <div className="pixel-bg__ground" />
-          <div className="pixel-bg__hud">
-            <span>Biome: Decorah Plains</span>
-            <span>Quest: Job Hunt</span>
-            <span>Build: AI + Full-stack</span>
-          </div>
-        </div>
-      )}
+    <div className="page">
+      <nav className="outline" aria-label="Outline">
+        <h1>nischal bhandari</h1>
+        <ol>
+          {sections.map((section, index) => (
+            <li key={section.id}>
+              <a href={`#${section.id}`}>
+                <span>{section.title}</span>
+                <span className="outline-number" aria-hidden="true">
+                  {index + 1}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
 
-      <header className="header">
-        <a className="wordmark" href="#top">Nischal Bhandari</a>
-        <nav className="nav">
-          <a href="#work">Work</a>
-          <a href="#about">About</a>
-          <a href={`${pub}/resume.html`}>Resume</a>
-          <button
-            className="pixel-toggle"
-            type="button"
-            onClick={() => setPixelMode((m) => !m)}
-            aria-pressed={pixelMode}
-            title="Toggle pixel mode"
-          >
-            {pixelMode ? '◼' : '◻'}
-          </button>
-        </nav>
-      </header>
-
-      <main id="top">
-        {/* ── HERO ── */}
-        <section className="hero">
-          <div className="hero-grid" aria-hidden="true" />
-          <p className="eyebrow hero-anim-1">
-            AI engineer · Full-stack · Open to full-time
-          </p>
-          <h1 className="hero-anim-2">
-            Fine-tuning models.<br />Shipping full-stack products.
-          </h1>
-          <p className="hero-lead hero-anim-3">
-            I build and fine-tune language models, engineer RAG pipelines, and ship
-            secure full-stack systems into production. Currently at Mayo Clinic — looking
-            for a team where AI engineering meets real product impact.
-          </p>
-          <div className="hero-actions hero-anim-4">
-            <a className="btn btn--primary" href="#work">See work</a>
-            <a
-              className="btn btn--outline"
-              href="https://github.com/bhanni01"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub
-            </a>
-            <a className="btn btn--outline" href={`${pub}/resume.html`}>
-              Resume
-            </a>
-          </div>
-          <div className="status-chips hero-anim-5">
-            <span>Mayo Clinic intern</span>
-            <span>AI engineer</span>
-            <span>Fine-tuning</span>
-            <span>Open to full-time</span>
-          </div>
-        </section>
-
-        {/* ── FEATURED WORK ── */}
-        <section className="section" id="work">
-          <p className="eyebrow" data-reveal>Selected work</p>
-          <h2 data-reveal data-delay="80">Featured projects</h2>
-
-          <div className="featured-grid">
-            {featuredProjects.map((p, i) => (
-              <article
-                className="featured-card"
-                key={p.id}
-                data-reveal
-                data-delay={i * 90}
-              >
-                <div className="featured-card__visual">
-                  {p.screenshot ? (
-                    <img
-                      src={p.screenshot}
-                      alt={p.screenshotAlt}
-                      className="featured-card__img"
-                    />
-                  ) : (
-                    <div className="code-preview" aria-hidden="true">
-                      <div className="code-preview__bar">
-                        <span /><span /><span />
-                      </div>
-                      <pre className="code-preview__body">{RAG_CODE}</pre>
-                    </div>
-                  )}
-                </div>
-                <div className="featured-card__body">
-                  <p className="featured-card__tag">{p.tagline}</p>
-                  <h3 className="featured-card__name">{p.name}</h3>
-                  <p className="featured-card__summary">{p.summary}</p>
-                  <div className="tag-row">
-                    {p.stack.map((t) => (
-                      <span className="tag" key={t}>{t}</span>
-                    ))}
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <hr className="section-divider" />
-
-          <h2 data-reveal>More work</h2>
-          <div className="more-grid">
-            {moreProjects.map((p, i) => (
-              <article
-                className="project-card"
-                key={p.name}
-                data-reveal
-                data-delay={i * 60}
-              >
-                <div>
-                  <p className="project-status">{p.status}</p>
-                  <h3 className="project-name">{p.name}</h3>
-                </div>
-                <p className="project-summary">{p.summary}</p>
-                <div className="tag-row">
-                  {p.stack.map((t) => (
-                    <span className="tag" key={t}>{t}</span>
-                  ))}
-                </div>
-                {p.url && (
-                  <a
-                    className="project-link"
-                    href={p.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Visit ↗
-                  </a>
-                )}
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* ── ABOUT ── */}
-        <section className="section about-section" id="about">
-          <p className="eyebrow" data-reveal>About</p>
-          <div className="about-grid">
-            <div className="about-copy" data-reveal data-delay="80">
-              <h2>How I build</h2>
-              <p>
-                I prefer systems that stay cheap, observable, and simple before they
-                become clever. Most of my recent work sits at the intersection of AI
-                engineering — fine-tuning, RAG, and agentic pipelines — and secure
-                full-stack delivery.
-              </p>
-              <p>
-                I am a Luther College CS student finishing up May 2026, looking for
-                full-time roles where I can build meaningful AI products with a team
-                that cares about craft.
-              </p>
-              <ul className="focus-list">
-                {['AI fine-tuning & RAG', 'Full-stack engineering', 'Cloud infrastructure', 'Security-aware design'].map((item, i) => (
-                  <li key={item} data-reveal data-delay={200 + i * 60}>{item}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="about-photo-col" data-reveal data-delay="160">
-              <img src={myPhoto} alt="Nischal Bhandari" className="portrait" />
-              <p className="about-caption">
-                Luther College · Decorah, Iowa
-                <br />
-                Mayo Clinic · Rochester, MN
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* ── CONTACT ── */}
-        <section className="contact-section" id="contact">
-          <p className="eyebrow" data-reveal>Contact</p>
-          <h2 data-reveal data-delay="80">Let's talk.</h2>
-          <p className="contact-lead" data-reveal data-delay="160">
-            If you are hiring for full-time engineering roles, I would like to hear from you.
-            Book a 30-minute call below or reach out directly.
-          </p>
-          <div className="contact-actions" data-reveal data-delay="220">
-            <a className="btn btn--primary" href="mailto:bhanni01@luther.edu">
-              Send email
-            </a>
-            <a
-              className="btn btn--outline"
-              href="https://linkedin.com/in/bhanni01/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn
-            </a>
-            <a
-              className="btn btn--outline"
-              href="https://github.com/bhanni01"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub
-            </a>
-            <a className="btn btn--outline" href={`${pub}/resume.html`}>
-              Resume
-            </a>
-          </div>
-          <div className="calendly-wrap" data-reveal data-delay="300">
-            <div
-              className="calendly-inline-widget"
-              data-url="https://calendly.com/iamnischalbhandari/30min"
-              style={{ minWidth: '320px', height: '700px' }}
+      <main className="sheet">
+        <Section number={1}>
+          <figure className="portrait">
+            <img
+              src={photo}
+              width="800"
+              height="800"
+              alt="Nischal Bhandari in a navy t-shirt with arms crossed, standing in front of green trees"
             />
-          </div>
-        </section>
-      </main>
+            <figcaption>fig. 1 me.</figcaption>
+          </figure>
+          <p>
+            i'm nischal bhandari, a software engineer and co-founder of{' '}
+            <External href="https://almadata.io">almadata</External>. i'm based
+            in cambridge, ma, and open to full-time roles.
+          </p>
+          <p>
+            i like quiet software. i keep cutting until what's left feels
+            curated, then i fix the small things, like making{' '}
+            <External href={ESC_COMMIT}>
+              esc close a new tab you never used
+            </External>
+            .
+          </p>
+          <p>
+            what i care about is how it feels to use: good, unhurried, with room
+            for your own thoughts.
+          </p>
+          <p>
+            before this i was a software engineer intern at mayo clinic, and
+            before that i spent a little over two years on financial-services
+            data at kingland systems, part-time during school. i studied computer
+            science at luther college, class of 2026.
+          </p>
+        </Section>
 
-      <footer className="footer">
-        <span>Nischal Bhandari · {new Date().getFullYear()}</span>
-      </footer>
+        <Section number={2}>
+          <div className="projects">
+            {projectGroups.map((group) => (
+              <div className="project-group" key={group.label}>
+                <h3>{group.label}</h3>
+                <ol>
+                  {group.items.map((project) => (
+                    <li key={project.name}>
+                      {project.url ? (
+                        <External href={project.url}>{project.name}</External>
+                      ) : (
+                        project.name
+                      )}
+                      , {project.note}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        <Section number={3}>
+          <p>
+            i'm open to full-time roles right now. the easiest way to reach me
+            is email.
+          </p>
+          <ul className="contact-links">
+            <li>
+              <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+            </li>
+            <li>
+              <External href="https://github.com/bhanni01">
+                github.com/bhanni01
+              </External>
+            </li>
+            <li>
+              <External href="https://linkedin.com/in/bhanni01/">
+                linkedin.com/in/bhanni01
+              </External>
+            </li>
+          </ul>
+        </Section>
+      </main>
     </div>
   );
 }
