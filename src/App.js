@@ -12,7 +12,6 @@ const sections = [
 
 const projectGroups = [
   {
-    label: 'start here',
     items: [
       {
         name: 'antenna',
@@ -223,8 +222,8 @@ function App() {
         <Section number={2}>
           <div className="projects">
             {projectGroups.map((group) => (
-              <div className="project-group" key={group.label}>
-                <h3>{group.label}</h3>
+              <div className="project-group" key={group.items[0].name}>
+                {group.label && <h3>{group.label}</h3>}
                 <ol>
                   {group.items.map((project) => (
                     <li key={project.name}>

@@ -24,8 +24,8 @@ test('every outline entry points at a section on the page', () => {
 
 test('leads the project list with antenna and untold want', () => {
   render(<App />);
-  const group = screen.getByRole('heading', { name: 'start here' }).parentElement;
-  const items = within(group).getAllByRole('listitem');
+  const projects = screen.getByRole('region', { name: 'projects' });
+  const items = within(projects).getAllByRole('listitem');
   expect(items[0]).toHaveTextContent(/^antenna,/);
   expect(items[1]).toHaveTextContent(/^untold want,/);
 });
