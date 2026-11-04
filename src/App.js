@@ -30,7 +30,7 @@ const projectGroups = [
       {
         name: 'boston area bestie',
         url: 'https://bostonareabestie.com',
-        note: 'friend matching in boston, with an intro every wednesday.',
+        note: 'friend matching in boston, with an intro every thursday.',
       },
       {
         name: 'kuonix',
