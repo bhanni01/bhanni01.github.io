@@ -15,7 +15,7 @@ const projectGroups = [
     items: [
       {
         name: 'antenna',
-        note: 'live radio from around the world, for ios. you never know what a frequency is playing until you hear it, and it learns what you care about from how you listen. no ratings, no like buttons. built at almadata, coming to the app store.',
+        note: 'live radio from around the world, for ios. you never know what a frequency is playing until you hear it, and it learns what you care about just from how you listen. built at almadata, coming to the app store.',
       },
       {
         name: 'untold want',

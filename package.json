@@ -17,9 +17,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
+    "check:copy": "react-scripts test --watchAll=false src/copy.test.js",
+    "prepare": "git config core.hooksPath .githooks || true",
+    "predeploy": "npm run check:copy && npm run build",
     "deploy": "gh-pages -d build"
-    
   },
   "eslintConfig": {
     "extends": [
@@ -40,6 +41,7 @@
     ]
   },
   "devDependencies": {
+    "avoid-ai-writing-detector": "3.38.0",
     "gh-pages": "^6.3.0"
   }
 }
