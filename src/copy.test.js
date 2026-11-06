@@ -34,7 +34,9 @@ const read = (file) =>
 function siteCopy() {
   const { container, unmount } = render(<App />);
   const blocks = [
-    ...container.querySelectorAll('h1, main h2, main h3, main p, main li'),
+    ...container.querySelectorAll(
+      'h1, main h2, main h3, main p, main li, .shortcuts h2, .shortcuts dd'
+    ),
   ].map((el) => el.textContent.replace(/\s+/g, ' ').trim());
   container.querySelectorAll('img[alt]').forEach((img) => blocks.push(img.alt));
   unmount();

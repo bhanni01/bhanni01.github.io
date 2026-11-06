@@ -4,6 +4,7 @@
   --ink: #1a1916;
   --muted: #6b6a64;
   --hairline: rgba(26, 25, 22, 0.1);
+  --mark: #f5e9c4;
   --serif: 'STIX Two Text', 'Times New Roman', Times, serif;
   color-scheme: light;
 }
@@ -182,6 +183,121 @@ ul {
   margin-top: 0.125rem;
 }
 
+/* keyboard jumps (Shortcuts.js) focus the section or project they land on.
+   a project gets a highlighter mark that fades out. */
+.section:focus,
+.project-group li:focus {
+  outline: none;
+}
+
+.project-group li.flash {
+  animation: mark 1.8s ease-out;
+}
+
+@keyframes mark {
+  from,
+  35% {
+    background-color: var(--mark);
+    box-shadow: 0 0 0 0.375rem var(--mark);
+  }
+  to {
+    background-color: transparent;
+    box-shadow: 0 0 0 0.375rem transparent;
+  }
+}
+
+/* the shortcut list, opened with ? */
+.shortcuts {
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  color: var(--ink);
+  font-size: 1rem;
+  padding: 0;
+  width: min(23rem, calc(100vw - 2rem));
+}
+
+.shortcuts[open] {
+  animation: sheet-in 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.shortcuts::backdrop {
+  background: rgba(26, 25, 22, 0.24);
+}
+
+.shortcuts-body {
+  padding: 2rem 2.25rem 2.25rem;
+}
+
+.shortcuts-body:focus {
+  outline: none;
+}
+
+.shortcuts .running-head {
+  margin-bottom: 1.25rem;
+}
+
+.shortcuts button {
+  background: none;
+  border: 0;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
+.shortcuts button:hover {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
+}
+
+.shortcuts button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.shortcuts dl {
+  margin: 0;
+}
+
+.shortcuts dl div {
+  align-items: baseline;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 6rem 1fr;
+  padding: 0.5rem 0;
+}
+
+.shortcuts dl div + div {
+  border-top: 1px solid var(--hairline);
+}
+
+.shortcuts dt {
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.shortcuts dt,
+.shortcuts dd {
+  margin: 0;
+}
+
+kbd {
+  background: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  color: var(--ink);
+  display: inline-block;
+  font-family: var(--serif);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  min-width: 1.6em;
+  padding: 0 0.35em;
+  text-align: center;
+}
+
 /* no room for a balancing column: outline and sheet sit side by side */
 @media (max-width: 1240px) {
   .page {
@@ -245,7 +361,8 @@ ul {
     scroll-behavior: auto;
   }
 
-  .sheet {
+  .sheet,
+  .shortcuts[open] {
     animation: none;
   }
 }

@@ -1,5 +1,6 @@
 import './App.css';
 import photo from './assets/profile.jpeg';
+import Shortcuts from './Shortcuts';
 
 const EMAIL = 'bhanni01@luther.edu';
 const ESC_COMMIT = 'https://github.com/driceroland/Search/commit/ec00d49';
@@ -144,6 +145,19 @@ const projectGroups = [
   },
 ];
 
+// "trading_systems" -> "project-trading-systems"
+const projectId = (name) =>
+  'project-' +
+  name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+
+// one entry per lettered item, (a) to (x), for the keyboard shortcuts
+const projects = projectGroups
+  .flatMap((group) => group.items)
+  .map((project) => ({ id: projectId(project.name) }));
+
 function External({ href, children }) {
   return (
     <a href={href} target="_blank" rel="noreferrer">
@@ -155,7 +169,12 @@ function External({ href, children }) {
 function Section({ number, children }) {
   const { id, title } = sections[number - 1];
   return (
-    <section id={id} className="section" aria-labelledby={`${id}-title`}>
+    <section
+      id={id}
+      className="section"
+      aria-labelledby={`${id}-title`}
+      tabIndex={-1}
+    >
       <header className="running-head">
         <h2 id={`${id}-title`}>{title}</h2>
         <span aria-hidden="true">{number}</span>
@@ -167,103 +186,110 @@ function Section({ number, children }) {
 
 function App() {
   return (
-    <div className="page">
-      <nav className="outline" aria-label="Outline">
-        <h1>nischal bhandari</h1>
-        <ol>
-          {sections.map((section, index) => (
-            <li key={section.id}>
-              <a href={`#${section.id}`}>
-                <span>{section.title}</span>
-                <span className="outline-number" aria-hidden="true">
-                  {index + 1}
-                </span>
-              </a>
-            </li>
-          ))}
-        </ol>
-      </nav>
-
-      <main className="sheet">
-        <Section number={1}>
-          <figure className="portrait">
-            <img
-              src={photo}
-              width="800"
-              height="800"
-              alt="Nischal Bhandari in a navy t-shirt with arms crossed, standing in front of green trees"
-            />
-          </figure>
-          <p>
-            i'm nischal bhandari, a software engineer and co-founder of{' '}
-            <External href="https://almadata.io">almadata</External>. i'm based
-            in cambridge, ma, and open to full-time roles.
-          </p>
-          <p>
-            i like quiet software. i keep cutting until what's left feels
-            curated, then i fix the small things, like making{' '}
-            <External href={ESC_COMMIT}>
-              esc close a new tab you never used
-            </External>
-            .
-          </p>
-          <p>
-            what i care about is how it feels to use: good, unhurried, with room
-            for your own thoughts.
-          </p>
-          <p>
-            before this i was a software engineer intern at mayo clinic, and
-            before that i spent a little over two years on financial-services
-            data at kingland systems, part-time during school. i studied computer
-            science at luther college, class of 2026.
-          </p>
-        </Section>
-
-        <Section number={2}>
-          <div className="projects">
-            {projectGroups.map((group) => (
-              <div className="project-group" key={group.items[0].name}>
-                {group.label && <h3>{group.label}</h3>}
-                <ol>
-                  {group.items.map((project) => (
-                    <li key={project.name}>
-                      {project.url ? (
-                        <External href={project.url}>{project.name}</External>
-                      ) : (
-                        project.name
-                      )}
-                      , {project.note}
-                    </li>
-                  ))}
-                </ol>
-              </div>
+    <>
+      <div className="page">
+        <nav className="outline" aria-label="Outline">
+          <h1>nischal bhandari</h1>
+          <ol>
+            {sections.map((section, index) => (
+              <li key={section.id}>
+                <a href={`#${section.id}`}>
+                  <span>{section.title}</span>
+                  <span className="outline-number" aria-hidden="true">
+                    {index + 1}
+                  </span>
+                </a>
+              </li>
             ))}
-          </div>
-        </Section>
+          </ol>
+        </nav>
 
-        <Section number={3}>
-          <p>
-            i'm open to full-time roles right now. the easiest way to reach me
-            is email.
-          </p>
-          <ul className="contact-links">
-            <li>
-              <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-            </li>
-            <li>
-              <External href="https://github.com/bhanni01">
-                github.com/bhanni01
+        <main className="sheet">
+          <Section number={1}>
+            <figure className="portrait">
+              <img
+                src={photo}
+                width="800"
+                height="800"
+                alt="Nischal Bhandari in a navy t-shirt with arms crossed, standing in front of green trees"
+              />
+            </figure>
+            <p>
+              i'm nischal bhandari, a software engineer and co-founder of{' '}
+              <External href="https://almadata.io">almadata</External>. i'm based
+              in cambridge, ma, and open to full-time roles.
+            </p>
+            <p>
+              i like quiet software. i keep cutting until what's left feels
+              curated, then i fix the small things, like making{' '}
+              <External href={ESC_COMMIT}>
+                esc close a new tab you never used
               </External>
-            </li>
-            <li>
-              <External href="https://linkedin.com/in/bhanni01/">
-                linkedin.com/in/bhanni01
-              </External>
-            </li>
-          </ul>
-        </Section>
-      </main>
-    </div>
+              .
+            </p>
+            <p>
+              what i care about is how it feels to use: good, unhurried, with room
+              for your own thoughts.
+            </p>
+            <p>
+              before this i was a software engineer intern at mayo clinic, and
+              before that i spent a little over two years on financial-services
+              data at kingland systems, part-time during school. i studied computer
+              science at luther college, class of 2026.
+            </p>
+          </Section>
+
+          <Section number={2}>
+            <div className="projects">
+              {projectGroups.map((group) => (
+                <div className="project-group" key={group.items[0].name}>
+                  {group.label && <h3>{group.label}</h3>}
+                  <ol>
+                    {group.items.map((project) => (
+                      <li
+                        key={project.name}
+                        id={projectId(project.name)}
+                        tabIndex={-1}
+                      >
+                        {project.url ? (
+                          <External href={project.url}>{project.name}</External>
+                        ) : (
+                          project.name
+                        )}
+                        , {project.note}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              ))}
+            </div>
+          </Section>
+
+          <Section number={3}>
+            <p>
+              i'm open to full-time roles right now. the easiest way to reach me
+              is email.
+            </p>
+            <ul className="contact-links">
+              <li>
+                <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+              </li>
+              <li>
+                <External href="https://github.com/bhanni01">
+                  github.com/bhanni01
+                </External>
+              </li>
+              <li>
+                <External href="https://linkedin.com/in/bhanni01/">
+                  linkedin.com/in/bhanni01
+                </External>
+              </li>
+            </ul>
+          </Section>
+        </main>
+      </div>
+      <Shortcuts sections={sections} projects={projects} />
+    </>
   );
 }
 
